@@ -1,6 +1,7 @@
 # nuxt-shop
 
 > Test online store by DNEPR-FAN
+https://nuxt-firebase.herokuapp.com/
 
 ## Build Setup
 
