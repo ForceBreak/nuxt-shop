@@ -24,6 +24,10 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
 
+  router: {
+    middleware: ['protectAdminPages']
+  },
+
   plugins: ["~/plugins/mixins/mixins.js"],
 
   modules: ['@nuxtjs/firebase', '@nuxtjs/pwa',
