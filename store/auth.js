@@ -10,27 +10,25 @@
 // const db = firebase.firestore();
 
 export const state = () => ({
-  authUser: null
+  authUser: {},
+  role: null
 })
 
 export const getters = {
   isLoggedIn: (state) => {
-    try {
-      return state.authUser.id !== null
-    } catch {
-      return false
-    }
+    return Object.keys(state.authUser).length
   },
   authUser: (state) => state.authUser,
+  role: (state) => state.role,
   userName: (state) => {
-    if(state.authUser && state.authUser.displayName){
+    if(state.authUser.displayName){
       return state.authUser.displayName
     }else{
       return 'Anonymous'
     }
   },
   userAvatar: (state) => {
-    if(state.authUser && state.authUser.photoURL){
+    if(state.authUser.photoURL){
       return state.authUser.photoURL
     }else{
       return '/img/user-nophoto.jpg'
@@ -40,23 +38,30 @@ export const getters = {
 
 export const mutations = {
   RESET_STORE: (state) => {
-    Object.assign(state, { authUser: null })
+    Object.assign(state, { authUser: {} })
   },
   SET_AUTH_USER: (state, { authUser }) => {
     if(authUser){
       const { uid, email, emailVerified, displayName, photoURL } = authUser
       state.authUser = { uid, email, emailVerified, displayName, photoURL }
+      console.log(state.authUser, 'state.authUser')
     }
   },
   ADD_ROLE(state, payload){
-    state.authUser.role = payload
+    state.role = payload
   }
 }
 export const actions = { 
   onAuthStateChanged({ commit }, { authUser }) {
-    if (!authUser) {
-      commit('RESET_STORE')
-      return
-    }
+    return new Promise((resolve, reject) => {
+      if (!authUser) {
+        commit('RESET_STORE')
+        resolve()
+      }else{
+        commit('SET_AUTH_USER', authUser)
+        resolve()
+      }
+      
+    })
   }
 }

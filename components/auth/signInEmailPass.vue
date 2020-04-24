@@ -121,28 +121,32 @@ export default {
   },
   methods: {
     ...mapMutations({
-      SET_AUTH_USER: 'auth/SET_AUTH_USER'
+      SET_AUTH_USER: 'auth/SET_AUTH_USER',
+      ADD_ROLE: 'auth/ADD_ROLE',
     }),
     async sigInGoogle(){
-      this.signViaGoogle()
-      .then(res => {
-        this.$fireStore.collection('users')
-        .doc(res.uid)
+      let user = await this.signViaGoogle()
+      
+      let userFromDB = await this.$fireStore.collection('users')
+        .doc(user.uid)
         .get()
         .then(response => {
-          let data = response.data()
-          if(data){
-            if(data.role === 'admin'){
-              this.$router.push({name: `admin___${this.locale}`})
-            }else if(data.role === 'user'){
-              this.$router.push({name: `index___${this.locale}`})
-            }
-          }else{
-            this.createUserInDB(Object.assign(res, {role: this.role}))
-              .then(() => this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.locale}`}))
-          }
+          return response.data()
         })
-      })
+
+      if(userFromDB){
+        if(userFromDB.role === 'admin'){
+          this.ADD_ROLE('admin')
+          this.$router.push({name: `admin___${this.locale}`})
+        }else if(userFromDB.role === 'user'){
+          this.ADD_ROLE('user')
+          this.$router.push({name: `index___${this.locale}`})
+        }
+      }else{
+        this.createUserInDB(Object.assign(res, {role: this.role}))
+          .then(() => this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.locale}`}))
+      }
+
     },
     async createUser() {
       try {
