@@ -10,6 +10,7 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'indexPage',
   data(){
     return {
 

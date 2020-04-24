@@ -10,6 +10,7 @@
   import signInEmailPass from '~/components/auth/signInEmailPass'
 
   export default {
+    name: 'authPage',
     components: {
       signInEmailPass
     }

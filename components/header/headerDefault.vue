@@ -1,71 +1,56 @@
 <template>
  <div>
-    <v-app-bar
-      :color="mixin.theme_text_color"
-      dense
-      dark
-      height="60"
-    >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    <client-only>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            dark
+            icon
+            v-on="on"
+          >
+            <v-icon>mdi-earth</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in mixin_locales"
+            :key="index"
+            nuxt
+            :to="switchLocalePath(item.id)"
+          >
+            <v-list-item-avatar width="25" min-width="25" height="25" min-height="25" horizontal>
+              <v-img :src="item.flagSrc"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-title>
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-btn
+        v-if="isLoggedIn"
+        icon
+        :to="{ name: `profile___${locale}` }"
+      >
+        <v-avatar>
+          <img
+            :src="userAvatar"
+            :alt="userName"
+          >
+        </v-avatar>
+      </v-btn>
 
-      <v-toolbar-title>Page title</v-toolbar-title>
+      <v-btn 
+        v-else 
+        icon
+        :to="{ name: `auth___${locale}` }"
+      >
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
 
-      <v-spacer></v-spacer>
+      <downloadLoader slot="placeholder"/>
 
-      <client-only>
-        <v-menu offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              dark
-              icon
-              v-on="on"
-            >
-              <v-icon>mdi-earth</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in mixin_locales"
-              :key="index"
-              nuxt
-              :to="switchLocalePath(item.id)"
-            >
-              <v-list-item-avatar width="25" min-width="25" height="25" min-height="25" horizontal>
-                <v-img :src="item.flagSrc"></v-img>
-              </v-list-item-avatar>
-              <v-list-item-title>
-                {{ item.title }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-btn
-          v-if="isLoggedIn"
-          icon
-          :to="{ name: `profile___${locale}` }"
-        >
-          <v-avatar>
-            <img
-              :src="userAvatar"
-              :alt="userName"
-            >
-          </v-avatar>
-        </v-btn>
-
-        <v-btn 
-          v-else 
-          icon
-          :to="{ name: `auth___${locale}` }"
-        >
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
-
-        <downloadLoader slot="placeholder"/>
-
-      </client-only>
-      
-    </v-app-bar>
-    
+    </client-only>
   </div>
 </template>
 
