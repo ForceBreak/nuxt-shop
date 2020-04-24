@@ -27,6 +27,7 @@
         <v-text-field
           v-if="isRegister"
           v-model="formData.name"
+          :rules="formRules.name"
           :color="mixin.theme_text_color"
           outlined
           placeholder="Name"
@@ -34,6 +35,7 @@
 
         <v-text-field
           v-model="formData.email"
+          :rules="formRules.email"
           :color="mixin.theme_text_color"
           outlined
           placeholder="Email"
@@ -69,7 +71,7 @@
           <v-btn
             :color="mixin.theme_text_color"
             outlined
-            @click="signViaGoogle()"
+            @click="sigInGoogle()"
           >
             <v-icon>mdi-google</v-icon>
           </v-btn>
@@ -83,10 +85,15 @@
 <script>
 
 import Vue from 'vue'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-import * as firebase from 'firebase'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
+  props: {
+    role:{
+      type: String,
+      default: 'user'
+    }
+  },
   data(){
     return {
       isRegister: false,
@@ -113,14 +120,29 @@ export default {
     })
   },
   methods: {
-    ...mapActions({
-      googleSignIn: 'auth/googleSignIn'
-    }),
     ...mapMutations({
       SET_AUTH_USER: 'auth/SET_AUTH_USER'
     }),
-    signViaGoogle(){
-      this.googleSignIn(firebase)
+    async sigInGoogle(){
+      this.signViaGoogle()
+      .then(res => {
+        this.$fireStore.collection('users')
+        .doc(res.uid)
+        .get()
+        .then(response => {
+          let data = response.data()
+          if(data){
+            if(data.role === 'admin'){
+              this.$router.push({name: `admin___${this.locale}`})
+            }else if(data.role === 'user'){
+              this.$router.push({name: `index___${this.locale}`})
+            }
+          }else{
+            this.createUserInDB(Object.assign(res, {role: this.role}))
+              .then(() => this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.locale}`}))
+          }
+        })
+      })
     },
     async createUser() {
       try {
@@ -133,7 +155,9 @@ export default {
             displayName: this.formData.name,
             // photoURL: // some photo url
           })
-          await this.SET_AUTH_USER(user.user)
+          await this.createUserInDB(Object.assign(user.user, {role: this.role}))
+
+          this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.locale}`})
         }
       } catch (e) {
         alert(e)
@@ -146,11 +170,32 @@ export default {
             this.formData.email,
             this.formData.password
           )
+          .then(res => {
+            this.$fireStore.collection('users')
+            .doc(res.user.uid)
+            .get()
+            .then(response => {
+              let data = response.data()
+              if(data){
+                if(data.role === 'admin'){
+                  this.$router.push({name: `admin___${this.locale}`})
+                }else if(data.role === 'user'){
+                  this.$router.push({name: `index___${this.locale}`})
+                }
+              }
+            })
+          })
         } catch (e) {
           alert(e)
         }
       }
     },
+  },
+  mounted(){
+    // console.log(this.$env)
+    // if(this.role === 'admin'){
+    //   this.formRules.email.push(v => v === this.$env.ADMIN_EMAIL || 'Not admin`s email')
+    // }
   }
 }
 </script>

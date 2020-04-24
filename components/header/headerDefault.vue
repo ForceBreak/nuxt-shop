@@ -13,9 +13,7 @@
       <v-spacer></v-spacer>
 
       <client-only>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
+        <VuetifyI18nLanguageSwitcherNuxt :languages="mixin_locales"/>
 
         <v-btn
           v-if="isLoggedIn"
@@ -49,12 +47,14 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import VuetifyI18nLanguageSwitcherNuxt from 'vuetify-i18n-language-switcher-nuxt'
 
   import downloadLoader from '~/components/loaders/downloadLoader'
 
   export default {
     components: {
-      downloadLoader
+      downloadLoader,
+      VuetifyI18nLanguageSwitcherNuxt
     },
     computed: {
       ...mapGetters({

@@ -47,6 +47,9 @@ export const mutations = {
       const { uid, email, emailVerified, displayName, photoURL } = authUser
       state.authUser = { uid, email, emailVerified, displayName, photoURL }
     }
+  },
+  ADD_ROLE(state, payload){
+    state.authUser.role = payload
   }
 }
 export const actions = { 
@@ -55,16 +58,5 @@ export const actions = {
       commit('RESET_STORE')
       return
     }
-  },
-  googleSignIn({ commit }, firebase) {
-    let provider =  new firebase.auth.GoogleAuthProvider()
-    firebase.auth().signInWithPopup(provider)
-    .then(result => {
-      // store the user ore wathever
-      // this.$router.push('/home')
-    }).catch(e => {
-      // this.$snotify.error(e.message)
-      console.log(e)
-    })
   }
 }

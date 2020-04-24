@@ -1,7 +1,7 @@
 <template>
   <v-layout class="justify-center align-center full_heigth">
     <v-flex xs12 sm6 md4>
-      <signInEmailPass role="user"/>
+      <signInEmailPass role="admin"/>
     </v-flex>
   </v-layout>
 </template>

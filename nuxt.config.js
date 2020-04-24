@@ -36,8 +36,8 @@ module.exports = {
             file: 'ru-RU.js'
           },
           {
-            code: 'en',
-            file: 'en-EN.js'
+            code: 'us',
+            file: 'us-US.js'
           },
         ],
         defaultLocale: 'ru',
@@ -45,7 +45,12 @@ module.exports = {
         lazy: true,
         langDir: 'lang/'
       }
-    ]
+    ],
+    ['nuxt-env', {
+      keys: [
+        { key: 'ADMIN_EMAIL', default: 'gbuecjd18@gmail.com', secret: false },
+      ]
+    }]
   ],
   
   buildModules: [
