@@ -1,0 +1,123 @@
+{
+  "_from": "vue-xlsx",
+  "_id": "vue-xlsx@0.2.1",
+  "_inBundle": false,
+  "_integrity": "sha512-j7uVNl1E1ZUpOaEYhQFw2NiXIP1ktlq25XPEdAOdUUnXhz8HjNsLnmgcqWs48aehnoDRGj6cmcOsJZ9L4NS3Dw==",
+  "_location": "/vue-xlsx",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "vue-xlsx",
+    "name": "vue-xlsx",
+    "escapedName": "vue-xlsx",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/vue-xlsx/-/vue-xlsx-0.2.1.tgz",
+  "_shasum": "336858c573e4c487aece3474cedc6f791114596d",
+  "_spec": "vue-xlsx",
+  "_where": "/home/john/code/nuxt-shop",
+  "author": {
+    "name": "Nicolo Maria Mezzopera",
+    "email": "nicolo.mezzopera@gmail.com",
+    "url": "donnico.dev"
+  },
+  "bugs": {
+    "url": "https://github.com/DonNicoJs/vue-xlsx/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "This vue Library is a vue wrapper for the excellent: [sheet-js](https://github.com/SheetJS/js-xlsx) The aim of this library is to provide an easy to use, well documented way to parse and create spreadsheets in vue.",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.5",
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-plugin-eslint": "^3.8.0",
+    "@vue/cli-plugin-unit-jest": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "@vuepress/plugin-google-analytics": "^1.0.0-alpha.44",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.7",
+    "rollup": "^1.13.0",
+    "rollup-copy-plugin": "^0.1.0",
+    "rollup-plugin-babel": "4.3.2",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-vue": "^4.7.2",
+    "vue": "^2.6.10",
+    "vue-server-renderer": "2.6.10",
+    "vue-template-compiler": "^2.6.10",
+    "vuepress": "^0.14.11",
+    "xlsx": "^0.14.3"
+  },
+  "files": [
+    "dist/"
+  ],
+  "homepage": "https://vue-xlsx.netlify.com/",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [
+    "vue",
+    "xlsx",
+    "vuejs"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  },
+  "main": "dist/vue-xlsx.cjs.js",
+  "module": "dist/vue-xlsx.es.js",
+  "name": "vue-xlsx",
+  "peerDependencies": {
+    "vue": "^2.5.17",
+    "xlsx": "^0.14.1"
+  },
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DonNicoJs/vue-xlsx.git"
+  },
+  "resolutions": {
+    "webpack-dev-middleware": "3.6.0"
+  },
+  "scripts": {
+    "build": "rollup -c --environment NODE_ENV:production",
+    "dev": "vue-cli-service serve",
+    "docs:build": "yarn docs:prepare && vuepress build docs",
+    "docs:dev": "vuepress dev docs",
+    "docs:prepare": "yarn prepare && rm -rf docs/dist/ && mkdir docs/dist/ && cp -r dist docs/",
+    "lint": "vue-cli-service lint",
+    "prepare": "npm run build",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "sideEffects": [
+    "polyfills.js"
+  ],
+  "unpkg": "dist/vue-xlsx.umd.js",
+  "version": "0.2.1"
+}
