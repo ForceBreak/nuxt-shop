@@ -44,7 +44,6 @@ export const mutations = {
     if(authUser){
       const { uid, email, emailVerified, displayName, photoURL } = authUser
       state.authUser = { uid, email, emailVerified, displayName, photoURL }
-      console.log(state.authUser, 'state.authUser')
     }
   },
   ADD_ROLE(state, payload){

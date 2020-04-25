@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-link :to="{ name: `auth___${locale}` }">Auth</nuxt-link>
+    <nuxt-link :to="{ name: `auth___${mixin_locale}` }">Auth</nuxt-link>
   </div>
 </template>
 
