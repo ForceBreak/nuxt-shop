@@ -137,14 +137,14 @@ export default {
       if(userFromDB){
         if(userFromDB.role === 'admin'){
           this.ADD_ROLE('admin')
-          this.$router.push({name: `admin___${this.locale}`})
+          this.$router.push({name: `admin___${this.mixin_locale}`})
         }else if(userFromDB.role === 'user'){
           this.ADD_ROLE('user')
-          this.$router.push({name: `index___${this.locale}`})
+          this.$router.push({name: `index___${this.mixin_locale}`})
         }
       }else{
         this.createUserInDB(Object.assign(res, {role: this.role}))
-          .then(() => this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.locale}`}))
+          .then(() => this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.mixin_locale}`}))
       }
 
     },
@@ -161,7 +161,7 @@ export default {
           })
           await this.createUserInDB(Object.assign(user.user, {role: this.role}))
 
-          this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.locale}`})
+          this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.mixin_locale}`})
         }
       } catch (e) {
         alert(e)
@@ -182,9 +182,9 @@ export default {
               let data = response.data()
               if(data){
                 if(data.role === 'admin'){
-                  this.$router.push({name: `admin___${this.locale}`})
+                  this.$router.push({name: `admin___${this.mixin_locale}`})
                 }else if(data.role === 'user'){
-                  this.$router.push({name: `index___${this.locale}`})
+                  this.$router.push({name: `index___${this.mixin_locale}`})
                 }
               }
             })

@@ -19,7 +19,9 @@
     "firebase": "^7.14.1",
     "nuxt": "^2.0.0",
     "nuxt-env": "^0.1.0",
-    "nuxt-i18n": "^6.10.1"
+    "nuxt-i18n": "^6.10.1",
+    "vuedraggable": "^2.23.2",
+    "xlsx": "^0.15.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

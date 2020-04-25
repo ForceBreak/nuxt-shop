@@ -1,6 +1,6 @@
 export default {
   computed: {
-    locale() {
+    mixin_locale() {
       return this.$i18n.locale
     },
     mixin_locales() {

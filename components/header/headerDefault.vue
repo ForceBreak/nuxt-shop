@@ -30,7 +30,7 @@
       <v-btn
         v-if="isLoggedIn"
         icon
-        :to="{ name: `profile___${locale}` }"
+        :to="{ name: `profile___${mixin_locale}` }"
       >
         <v-avatar>
           <img
@@ -43,7 +43,7 @@
       <v-btn 
         v-else 
         icon
-        :to="{ name: `auth___${locale}` }"
+        :to="{ name: `auth___${mixin_locale}` }"
       >
         <v-icon>mdi-account</v-icon>
       </v-btn>
