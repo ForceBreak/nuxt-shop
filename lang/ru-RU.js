@@ -10,5 +10,9 @@ export default {
   create_new_product: 'Создать новый',
   change_table_view_title: 'Изменить вид',
   import_products: 'Импортировать товары',
-  create: 'Создать'
+  create: 'Создать',
+  delete_all: 'Удалить все',
+  delete: 'Удалить',
+  search: 'Поиск',
+  edit: 'Изменить'
 }

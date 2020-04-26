@@ -10,5 +10,9 @@ export default {
   create_new_product: 'Create new',
   change_table_view_title: 'Change view',
   import_products: 'Import products',
-  create: 'Create'
+  create: 'Create',
+  delete_all: 'Delete all',
+  delete: 'Delete',
+  search: 'Search',
+  edit: 'Edit'
 }

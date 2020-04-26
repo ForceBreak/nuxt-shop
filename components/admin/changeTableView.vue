@@ -14,16 +14,19 @@
       <v-card-text>
         <v-list dense>
           <draggable :list="tableHeaders" ghost-class="ghost">
-            <v-list-item
-              v-for="item in tableHeaders"
-              :key="item.id"
-            >
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.text }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-for="item in tableHeaders">
+              <v-list-item
+                v-if="item.value != 'actions'"
+                :key="item.id"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ item.text }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+            
           </draggable>
         </v-list>
       </v-card-text>
@@ -51,7 +54,11 @@
     props: {
       headers:{
         type: Array,
-        default: () => []
+        default: () => {}
+      },
+      productViewId: {
+        type: String,
+        default: ''
       }
     },
     components:{
@@ -71,6 +78,11 @@
     },
     watch: {
       tableHeaders(){
+        let productView = {}
+        this.tableHeaders.forEach((elem, index) => {
+          productView[elem.value] = index
+        })
+        this.$fireStore.collection('productView').doc(this.productViewId).set(productView)
         this.$emit('changeHeaders', this.tableHeaders)
       }
     }

@@ -6,34 +6,86 @@
           v-if="!isProducts"
           @change="onUploadFile"
           chips
+          hide-details
           :label="$t('import_products')"
+          accept="application/vnd.ms-excel"
         />
       </v-flex>
       <v-btn
         v-if="!isProducts"
+        icon
         color="success"
-        class="my-4 mx-4"
+        class="my-2"
+        :title="$t('create_new_product')"
         @click="changeNewProductVisibility"
       >
-        {{ $t('create_new_product') }}
+        <v-icon>mdi-plus-circle</v-icon>
       </v-btn>
       <v-btn
         v-if="!isProducts"
-        color="success"
-        class="my-4 mx-4"
+        icon
+        color="primary"
+        class="my-2"
+        :title="$t('change_table_view_title')"
         @click="changeTableViewVisibility"
       >
-        {{ $t('change_table_view_title') }}
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <v-btn
+        v-if="!isProducts"
+        icon
+        color="warning"
+        class="my-2"
+        :title="$t('delete')"
+        :disabled="!Boolean(selectedProducts.length)"
+        @click="deleteProductsVisibility"
+      >
+        <v-icon>mdi-delete-sweep</v-icon>
+      </v-btn>
+      <v-btn
+        v-if="!isProducts"
+        icon
+        color="primary"
+        class="my-2"
+        :title="$t('search')"
+        @click="showSearch = !showSearch"
+      > 
+        <v-icon v-if="showSearch">mdi-close</v-icon>
+        <v-icon v-else>mdi-magnify</v-icon>
       </v-btn>
     </v-layout>
-    <v-data-table
-      v-if="products.length"
-      :headers="headers"
-      :items="products"
-      :items-per-page="5"
-      class="elevation-1"
-    >
-    </v-data-table>
+    <v-card v-if="products.length">
+      <v-card-title v-if="showSearch">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          :label="$t('search')"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        v-model="selectedProducts"
+        :headers="headers"
+        :items="products"
+        :items-per-page="30"
+        :search="search"
+        class="elevation-1"
+        show-select
+      >
+        <template v-slot:item.actions="{ item }">
+          <v-btn
+            icon
+            color="primary"
+            class="mx-2"
+            :title="$t('edit')"
+            :to="{name: `admin-products-id___${mixin_locale}`, params: {id: item.id}}"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
+      </v-data-table>
+    </v-card>
 
     <!-- Import components -->
     <section>
@@ -56,6 +108,7 @@
 
     <changeTableView 
       :headers="headers" 
+      :productViewId="productViewId"
       @changeHeaders="changeHeaders"
       ref="changeTableView"
     />
@@ -66,6 +119,30 @@
       @createProduct="createProduct"
       ref="newProductForm"
     />
+
+    <v-snackbar
+      v-model="showDeleteConfirm"
+      :timeout="0"
+      top
+    >
+      <v-btn
+        color="success"
+        class="mx-0"
+        small
+        @click="deleteProducts"
+      >
+        {{ $t('submit') }}
+      </v-btn>
+      <h3>Delete?</h3>
+      <v-btn
+        color="warning"
+        class="mx-0"
+        small
+        @click="deleteProductsVisibility"
+      >
+        {{ $t('close') }}
+      </v-btn>
+    </v-snackbar>
 
   </div>
 </template>
@@ -91,6 +168,9 @@
     },
     data() {
       return {
+        search: '',
+        showSearch: false,
+        showDeleteConfirm: false,
         file: null,
         isProducts: null,
         products: [],
@@ -100,9 +180,22 @@
         importedProducts: [],
         newProduct: {},
         importProductView: {},
+        productView: {},
+        productViewId: '',
+        selectedProducts: []
       }
     },
     methods: {
+      deleteProducts(){
+        this.selectedProducts.forEach(async elem => {
+          await this.$fireStore.collection('products').doc(elem.id).delete()
+          this.products = this.products.filter(item => item.id != elem.id )
+        })
+        this.deleteProductsVisibility()
+      },
+      deleteProductsVisibility(){
+        this.showDeleteConfirm = !this.showDeleteConfirm
+      },
       changeTableViewVisibility(){
         this.$refs.changeTableView.changeVisibility()
       },
@@ -114,8 +207,10 @@
       },
       onUploadFile(event) {
         this.file = event ? event : null
+        console.log(event)
       },
       parsed(event){
+        this.importProductKeysArray = []
         Object.keys(event[0]).forEach(elem => {
           this.importProductKeysArray.push(elem)
         })
@@ -148,20 +243,28 @@
           })        
       },
       createProductsData(){
-        Object.keys(this.products[0]).forEach(elem => {
+        this.headers = new Array(Object.keys(this.productView).length)
+        Object.keys(this.productView).forEach(elem => {
           if(elem != 'id'){
             this.newProductKeysArray.push(elem)
             this.newProduct[elem] = ''
             this.importProductView[elem] = ''
           }
-          this.headers.push({
+          this.headers.splice(this.productView[elem], 1, {
             text: elem.charAt(0).toUpperCase() + elem.slice(1),
             value: elem,
             sortable: true
           })
         })
+        this.headers.push({
+          text: 'Actions',
+          value: 'actions',
+          sortable: false
+        })
       },
-      async createBaseProduct(){
+      async createBaseProduct(event){
+        this.productView = event.productView
+        this.productViewId = event.productViewId
         try {
           await this.getProductsList()
           this.createProductsData()
@@ -179,10 +282,17 @@
     },
 
     async asyncData({ app }){
+      let parsedProductView, productViewId = ''
       // Create 'products collection' and first test product
       let isProducts = await app.$fireStore.collection('products').get()
+      let productView = await app.$fireStore.collection('productView').get()
 
-      return { isProducts: isProducts.empty }
+      if(!productView.empty){
+        parsedProductView = productView.docs[0].data()
+        productViewId = productView.docs[0].id
+      }
+      
+      return { isProducts: isProducts.empty, productView: parsedProductView, productViewId: productViewId }
     }
   }
 </script>
