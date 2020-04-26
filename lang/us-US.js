@@ -9,5 +9,6 @@ export default {
   close: 'Close',
   create_new_product: 'Create new',
   change_table_view_title: 'Change view',
-  import_products: 'Import products'
+  import_products: 'Import products',
+  create: 'Create'
 }

@@ -9,5 +9,6 @@ export default {
   close: 'Закрыть',
   create_new_product: 'Создать новый',
   change_table_view_title: 'Изменить вид',
-  import_products: 'Импортировать товары'
+  import_products: 'Импортировать товары',
+  create: 'Создать'
 }
