@@ -2,14 +2,20 @@
   <div>
     <v-layout class="d-flex justify-end ">
       <v-flex xs12 sm2>
-        <v-file-input 
-          v-if="!isProducts"
-          @change="onUploadFile"
-          chips
-          hide-details
-          :label="$t('import_products')"
-          accept="application/vnd.ms-excel"
-        />
+        <v-form
+          v-model="validFile"
+          ref="validFile"  
+        >
+          <v-file-input 
+            v-if="!isProducts"
+            @change="onUploadFile"
+            @click:clear="resetImportValidation"
+            :rules="isExcel"
+            chips
+            :label="$t('import_products')"
+            accept="application/vnd.ms-excel"
+          />
+        </v-form>
       </v-flex>
       <v-btn
         v-if="!isProducts"
@@ -171,6 +177,7 @@
         search: '',
         showSearch: false,
         showDeleteConfirm: false,
+        validFile: true,
         file: null,
         isProducts: null,
         products: [],
@@ -182,7 +189,13 @@
         importProductView: {},
         productView: {},
         productViewId: '',
-        selectedProducts: []
+        selectedProducts: [],
+        isExcel: [
+          value => 
+            value && value.name.substr(value.name.length - 4) == 'xlsx' 
+            || value && value.name.substr(value.name.length - 3) == 'xls' 
+            || this.$t('excel_only')
+        ]
       }
     },
     methods: {
@@ -205,9 +218,13 @@
       changeHeaders(event){
         this.headers = JSON.parse(JSON.stringify(event))
       },
+      resetImportValidation(){
+        this.$refs.validFile.reset()
+      },
       onUploadFile(event) {
-        this.file = event ? event : null
-        console.log(event)
+        if(this.$refs.validFile.validate()){
+          this.file = event ? event : null
+        }
       },
       parsed(event){
         this.importProductKeysArray = []
@@ -256,11 +273,15 @@
             sortable: true
           })
         })
-        this.headers.push({
-          text: 'Actions',
-          value: 'actions',
-          sortable: false
-        })
+        let isActions = this.headers.find(elem => elem.value == 'actions')
+        if(!isActions){
+          this.headers.push({
+            text: 'Actions',
+            value: 'actions',
+            sortable: false
+          })
+        }
+        
       },
       async createBaseProduct(event){
         this.productView = event.productView

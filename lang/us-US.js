@@ -14,5 +14,6 @@ export default {
   delete_all: 'Delete all',
   delete: 'Delete',
   search: 'Search',
-  edit: 'Edit'
+  edit: 'Edit',
+  excel_only: 'Must be Excel file'
 }

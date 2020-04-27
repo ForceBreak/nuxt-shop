@@ -14,5 +14,6 @@ export default {
   delete_all: 'Удалить все',
   delete: 'Удалить',
   search: 'Поиск',
-  edit: 'Изменить'
+  edit: 'Изменить',
+  excel_only: 'Только Excel файл'
 }
