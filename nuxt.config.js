@@ -30,7 +30,7 @@ module.exports = {
 
   plugins: ["~/plugins/mixins/mixins.js"],
 
-  modules: ['@nuxtjs/firebase', '@nuxtjs/pwa',
+  modules: ['@nuxtjs/firebase', '@nuxtjs/pwa', 'nuxt-moment',
     [
       'nuxt-i18n',
       {

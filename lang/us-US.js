@@ -15,5 +15,9 @@ export default {
   delete: 'Delete',
   search: 'Search',
   edit: 'Edit',
-  excel_only: 'Must be Excel file'
+  excel_only: 'Must be Excel file',
+  info: 'Info',
+  price: 'Price',
+  text_name: 'Name',
+  product_code: 'Product code'
 }

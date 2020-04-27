@@ -15,5 +15,9 @@ export default {
   delete: 'Удалить',
   search: 'Поиск',
   edit: 'Изменить',
-  excel_only: 'Только Excel файл'
+  excel_only: 'Только Excel файл',
+  info: 'Информация',
+  price: 'Цены',
+  text_name: 'Название',
+  product_code: 'Артикул'
 }

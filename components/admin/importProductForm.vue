@@ -74,8 +74,11 @@
         this.importedProducts.forEach(elem => {
           let configuredItem = {}
           for(let item in this.importProductView){
-            if(elem[this.importProductView[item]])
+            if(elem[this.importProductView[item]]){
               configuredItem[item] = elem[this.importProductView[item]]
+            }else{
+              configuredItem[item] = ''
+            }
           }
           this.$fireStore.collection('products').doc().set(configuredItem)
         })
