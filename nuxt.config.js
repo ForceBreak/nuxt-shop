@@ -28,7 +28,9 @@ module.exports = {
     middleware: ['protectAdminPages']
   },
 
-  plugins: ["~/plugins/mixins/mixins.js"],
+  plugins: ["~/plugins/mixins/mixins.js", 
+    { src: '~/plugins/vueditor.js', ssr: false }
+  ],
 
   modules: ['@nuxtjs/firebase', '@nuxtjs/pwa', 'nuxt-moment',
     [

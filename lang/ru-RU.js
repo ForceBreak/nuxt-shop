@@ -19,5 +19,8 @@ export default {
   info: 'Информация',
   price: 'Цены',
   text_name: 'Название',
-  product_code: 'Артикул'
+  product_code: 'Артикул',
+  description: 'Описание',
+  short_description: 'Краткое описание',
+  save: 'Сохранить'
 }

@@ -19,5 +19,8 @@ export default {
   info: 'Info',
   price: 'Price',
   text_name: 'Name',
-  product_code: 'Product code'
+  product_code: 'Product code',
+  description: 'Description',
+  short_description: 'Short description',
+  save: 'Save'
 }
