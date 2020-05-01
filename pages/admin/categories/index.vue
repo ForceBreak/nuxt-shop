@@ -85,7 +85,7 @@
             color="primary"
             class="mx-2"
             :title="$t('edit')"
-            :to="{name: `admin-products-id___${mixin_locale}`, params: {id: item.id}}"
+            :to="{name: `admin-categories-id___${mixin_locale}`, params: {id: item.id}}"
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
