@@ -5,6 +5,7 @@ export default {
   register: 'Зарегистироваться',
   logout: 'Выйти',
   no_products: 'Товары отсутствуют, хотите создать первый?',
+  no_categories: 'Категории отсутствуют, хотите создать тестовую?',
   change_table_view: 'Перетаскивайте, чтобы изменить порядок.',
   close: 'Закрыть',
   create_new_product: 'Создать новый',
@@ -17,10 +18,15 @@ export default {
   edit: 'Изменить',
   excel_only: 'Только Excel файл',
   info: 'Информация',
-  price: 'Цены',
+  price: 'Цена',
+  base_price: 'Базовая цена',
   text_name: 'Название',
   product_code: 'Артикул',
   description: 'Описание',
   short_description: 'Краткое описание',
-  save: 'Сохранить'
+  save: 'Сохранить',
+  meta_title: 'Мета заголовок',
+  meta_description: 'Мета описание',
+  meta_keywords: 'Мета ключевые слова',
+  link_text: 'Ссылка на товар'
 }

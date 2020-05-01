@@ -103,9 +103,9 @@
 
     <createBaseItem 
       v-if="isProducts" 
-      collectionView="productView"
-      collection="products"
-      title="no_products"
+      collectionView="categoryView"
+      collection="categories"
+      title="no_categories"
       :itemView="itemView"
       @createBaseItem="createBaseProduct"
     />
@@ -115,7 +115,7 @@
       :importProductKeysArray="importProductKeysArray"
       :importProductView="importProductView"
       :importedProducts="importedProducts"
-      collection="products"
+      collection="categories"
       @importProducts="importProducts"
       ref="importProductForm"
     />
@@ -123,7 +123,7 @@
     <changeTableView 
       :headers="headers" 
       :productViewId="productViewId"
-      collection="productView"
+      collection="categoryView"
       @changeHeaders="changeHeaders"
       ref="changeTableView"
     />
@@ -131,7 +131,7 @@
     <newProductForm 
       :newProductKeysArray="newProductKeysArray"
       :newProduct="newProduct"
-      collection="products"
+      collection="categories"
       @createProduct="createProduct"
       ref="newProductForm"
     />
@@ -187,11 +187,8 @@
         itemView: {
           name: 1, 
           description: 2,
-          category: 3,
-          price: 4, 
-          base_price: 5,
-          image: 6,
-          code: 7
+          short_description: 3,
+          image: 4
         },
         search: '',
         showSearch: false,
@@ -220,7 +217,7 @@
     methods: {
       deleteProducts(){
         this.selectedProducts.forEach(async elem => {
-          await this.$fireStore.collection('products').doc(elem.id).delete()
+          await this.$fireStore.collection('categories').doc(elem.id).delete()
           this.products = this.products.filter(item => item.id != elem.id )
         })
         this.deleteProductsVisibility()
@@ -268,7 +265,7 @@
       },
       async getProductsList(){
         await this.$fireStore
-          .collection('products')
+          .collection('categories')
           .get()
           .then(res => {
             let productsList = []
@@ -324,8 +321,8 @@
     async asyncData({ app }){
       let parsedProductView, productViewId = ''
       // Create 'products collection' and first test product
-      let isProducts = await app.$fireStore.collection('products').get()
-      let productView = await app.$fireStore.collection('productView').get()
+      let isProducts = await app.$fireStore.collection('categories').get()
+      let productView = await app.$fireStore.collection('categoryView').get()
 
       if(!productView.empty){
         parsedProductView = productView.docs[0].data()

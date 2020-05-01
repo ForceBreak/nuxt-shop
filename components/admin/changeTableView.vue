@@ -59,6 +59,10 @@
       productViewId: {
         type: String,
         default: ''
+      },
+      collection: {
+        type: String,
+        default: ''
       }
     },
     components:{
@@ -82,7 +86,7 @@
         this.tableHeaders.forEach((elem, index) => {
           productView[elem.value] = index
         })
-        this.$fireStore.collection('productView').doc(this.productViewId).set(productView)
+        this.$fireStore.collection(this.collection).doc(this.productViewId).set(productView)
         this.$emit('changeHeaders', this.tableHeaders)
       }
     }

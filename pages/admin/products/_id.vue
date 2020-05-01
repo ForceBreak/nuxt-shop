@@ -32,7 +32,7 @@
         tile
       >
         <div class="mx-2 py-2">
-          <component :is="activeTab" :product="product"/>
+          <component :is="activeTab" :product="product" @saveInfo="saveInfo"/>
         </div>
       </v-card>
     </v-flex>
@@ -42,12 +42,14 @@
 <script>
   import adminProductInfo from '~/components/admin/productDetails/adminProductInfo'
   import adminProductPrice from '~/components/admin/productDetails/adminProductPrice'
+  import adminSeo from '~/components/admin/productDetails/adminSeo'
 
   export default {
     layout: 'admin',
     components: {
       adminProductInfo,
       adminProductPrice,
+      adminSeo,
     },
     data() {
       return {
@@ -55,8 +57,17 @@
         items: [
           { icon: 'mdi-information-outline', text: `${this.$t('info')}`, component:  'adminProductInfo'},
           { icon: 'mdi-cash', text: `${this.$t('price')}`, component: 'adminProductPrice' },
+          { icon: 'mdi-robot', text: 'SEO', component: 'adminSeo' },
         ],
         product: {}
+      }
+    },
+    methods: {
+      saveInfo(arg){
+        this.$fireStore
+        .collection('products')
+        .doc(this.$route.params.id)
+        .update(arg)
       }
     },
     computed: {

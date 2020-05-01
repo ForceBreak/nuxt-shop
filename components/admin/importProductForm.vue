@@ -58,6 +58,10 @@
       importProductView:{
         type: Object,
         default: () => {}
+      },
+      collection: {
+        type: String,
+        default: ''
       }
     },
     data(){
@@ -80,7 +84,7 @@
               configuredItem[item] = ''
             }
           }
-          this.$fireStore.collection('products').doc().set(configuredItem)
+          this.$fireStore.collection(this.collection).doc().set(configuredItem)
         })
         this.$emit('importProducts')
       },

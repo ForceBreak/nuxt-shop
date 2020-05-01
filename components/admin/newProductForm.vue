@@ -52,6 +52,10 @@
       newProduct:{
         type: Object,
         default: () => {}
+      },
+      collection: {
+        type: String,
+        default: ''
       }
     },
     data() {
@@ -69,7 +73,7 @@
       async createProduct(){
         if(this.$refs.newProductForm.validate()){
           try {
-            await this.$fireStore.collection('products').doc().set(this.newProduct)
+            await this.$fireStore.collection(this.collection).doc().set(this.newProduct)
             this.$emit('createProduct')
           } catch (error) {
             console.log(error)

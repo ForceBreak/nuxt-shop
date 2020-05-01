@@ -38,6 +38,7 @@ export default {
     items(){
       return [
           { icon: 'mdi-view-list', text: 'Products', link: {name: `admin-products___${this.mixin_locale}`} },
+          { icon: 'mdi-format-list-bulleted', text: 'Categories', link: {name: `admin-categories___${this.mixin_locale}`} },
           { icon: 'mdi-cog', text: 'Configuration', link: {name: `admin-configuration___${this.mixin_locale}`} },
       ]
     }

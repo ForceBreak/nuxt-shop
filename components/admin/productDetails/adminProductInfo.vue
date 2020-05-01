@@ -3,33 +3,33 @@
     v-model="form"
     ref="adminProductInfo"
   >
-  <v-text-field
-    v-model="localProduct.name"
-    :value="localProduct.name"
-    :label="$t('text_name')"
-  />
-  <v-text-field
-    v-model="localProduct.code"
-    :value="localProduct.code"
-    :label="$t('product_code')"
-  />
+    <v-text-field
+      v-model="localProduct.name"
+      :value="localProduct.name"
+      :label="$t('text_name')"
+    />
+    <v-text-field
+      v-model="localProduct.code"
+      :value="localProduct.code"
+      :label="$t('product_code')"
+    />
 
-  <h4>{{ $t('short_description') }}</h4>
-  <div class="editor-wrap mb-4">
-    <div id="short_description"></div>
-  </div>
+    <h4>{{ $t('short_description') }}</h4>
+    <div class="editor-wrap-short mb-4">
+      <div id="short_description"></div>
+    </div>
 
-  <h4>{{ $t('description') }}</h4>
-  <div class="editor-wrap mb-4">
-    <div id="description"></div>
-  </div>
+    <h4>{{ $t('description') }}</h4>
+    <div class="editor-wrap mb-4">
+      <div id="description"></div>
+    </div>
 
-  <v-btn
-    color="primary"
-    @click="saveInfo"
-  >
-    {{ $t('save') }}
-  </v-btn>
+    <v-btn
+      color="primary"
+      @click="saveInfo"
+    >
+      {{ $t('save') }}
+    </v-btn>
   </v-form>
 </template>
 
@@ -50,15 +50,12 @@
       }
     },
     methods: {
-      saveInfo(arg){
+      saveInfo(){
         this.localProduct.description = this.descriptionEditor.getContent()
         this.localProduct.short_description = this.shortDescriptionEditor.getContent()
 
         let { name, code, description, short_description } = this.localProduct
-        this.$fireStore
-        .collection('products')
-        .doc(this.$route.params.id)
-        .update({name, code, description, short_description})
+        this.$emit('saveInfo', {name, code, description, short_description})
       }
     },
     mounted(){
@@ -78,7 +75,7 @@
       this.descriptionEditor.setContent(this.product.description)
 
       if(this.product.short_description){
-        this.descriptionEditor.setContent(this.product.short_description)
+        this.shortDescriptionEditor.setContent(this.product.short_description)
       }
     },
   }
@@ -87,5 +84,8 @@
 <style lang="scss" scoped>
 .editor-wrap{
   height: 350px;
+  &-short{
+    height: 200px;
+  }
 }
 </style>
