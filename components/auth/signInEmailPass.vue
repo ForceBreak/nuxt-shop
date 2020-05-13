@@ -182,8 +182,10 @@ export default {
               let data = response.data()
               if(data){
                 if(data.role === 'admin'){
+                  this.ADD_ROLE('admin')
                   this.$router.push({name: `admin___${this.mixin_locale}`})
                 }else if(data.role === 'user'){
+                  this.ADD_ROLE('user')
                   this.$router.push({name: `index___${this.mixin_locale}`})
                 }
               }
