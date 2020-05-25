@@ -8,11 +8,6 @@
       :value="localProduct.name"
       :label="$t('text_name')"
     />
-    <v-text-field
-      v-model="localProduct.code"
-      :value="localProduct.code"
-      :label="$t('product_code')"
-    />
 
     <h4>{{ $t('short_description') }}</h4>
     <div class="editor-wrap-short mb-4">
@@ -25,9 +20,10 @@
     </div>
 
     <v-combobox
-      v-model="localProduct.tags"
+      v-model="localProduct.parent"
       chips
       clearable
+      :items="categories"
       :label="$t('tags')"
       multiple
       solo
@@ -56,6 +52,7 @@
 
 <script>
   export default {
+    name: 'adminCategoryInfo',
     props: {
       product: {
         type: Object,
@@ -67,7 +64,8 @@
         form: true,
         localProduct: {},
         descriptionEditor: '',
-        shortDescriptionEditor: ''
+        shortDescriptionEditor: '',
+        categories: []
       }
     },
     methods: {
@@ -79,8 +77,20 @@
         this.$emit('saveInfo', { name, code, description, short_description, tags })
       },
       remove (item) {
-        this.localProduct.tags.splice(this.localProduct.tags.indexOf(item), 1)
-        this.localProduct.tags = [...this.localProduct.tags]
+        this.localProduct.parent.splice(this.localProduct.parent.indexOf(item), 1)
+        this.localProduct.parent = [...this.localProduct.parent]
+      },
+      async getCategoriesList(){
+        await this.$fireStore
+          .collection('categories')
+          .get()
+          .then(res => {
+            let categoriesList = []
+            res.docs.forEach(elem => {
+              categoriesList.push(elem.id)
+            })
+            this.categories = categoriesList
+          })        
       },
     },
     mounted(){
@@ -102,6 +112,8 @@
       if(this.product.short_description){
         this.shortDescriptionEditor.setContent(this.product.short_description)
       }
+
+      this.getCategoriesList()
     },
   }
 </script>

@@ -12,11 +12,12 @@
       >
         <template v-for="(item, index) in newProductKeysArray">
           <v-select
+            v-if="typeof(item) == 'string'"
             v-model="importProductView[item]"
             :key="index"
             :items="importProductKeysArray"
             :label="item.charAt(0).toUpperCase() + item.slice(1)"
-          ></v-select>
+          />
         </template>
 
         <v-btn

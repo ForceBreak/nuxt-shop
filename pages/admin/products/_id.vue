@@ -43,6 +43,7 @@
   import adminProductInfo from '~/components/admin/productDetails/adminProductInfo'
   import adminProductPrice from '~/components/admin/productDetails/adminProductPrice'
   import adminSeo from '~/components/admin/productDetails/adminSeo'
+  import adminRelations from '~/components/admin/productDetails/adminRelations'
 
   export default {
     layout: 'admin',
@@ -50,6 +51,7 @@
       adminProductInfo,
       adminProductPrice,
       adminSeo,
+      adminRelations,
     },
     data() {
       return {
@@ -58,6 +60,7 @@
           { icon: 'mdi-information-outline', text: `${this.$t('info')}`, component:  'adminProductInfo'},
           { icon: 'mdi-cash', text: `${this.$t('price')}`, component: 'adminProductPrice' },
           { icon: 'mdi-robot', text: 'SEO', component: 'adminSeo' },
+          { icon: 'mdi-folder-network', text: `${this.$t('relations')}`, component: 'adminRelations' },
         ],
         product: {}
       }

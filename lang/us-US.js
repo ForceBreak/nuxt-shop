@@ -28,5 +28,10 @@ export default {
   meta_title: 'Meta title',
   meta_description: 'Meta description',
   meta_keywords: 'Meta keywords',
-  link_text: 'Link to product'
+  link_text: 'Link to product',
+  tags: 'Tags',
+  show_sale_icon: 'Show Sale icon',
+  relations: 'Relations',
+  view: 'View',
+  parent_category: 'Parent category'
 }

@@ -28,5 +28,10 @@ export default {
   meta_title: 'Мета заголовок',
   meta_description: 'Мета описание',
   meta_keywords: 'Мета ключевые слова',
-  link_text: 'Ссылка на товар'
+  link_text: 'Ссылка на товар',
+  tags: 'Теги',
+  show_sale_icon: 'Показывать иконку распродажа',
+  relations: 'Связи',
+  view: 'Просмотр',
+  parent_category: 'Родительская категория'
 }

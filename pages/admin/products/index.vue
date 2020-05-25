@@ -281,7 +281,7 @@
       createProductsData(){
         this.headers = new Array(Object.keys(this.productView).length)
         Object.keys(this.productView).forEach(elem => {
-          if(elem != 'id'){
+          if(elem != 'id' && elem != 'actions'){
             this.newProductKeysArray.push(elem)
             this.newProduct[elem] = ''
             this.importProductView[elem] = ''

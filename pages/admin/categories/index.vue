@@ -172,7 +172,7 @@
   import newProductForm from '~/components/admin/newProductForm'
 
   export default {
-    name: 'adminProducts',
+    name: 'adminCategories',
     layout: 'admin',
     components: {
       XlsxRead,
@@ -271,14 +271,14 @@
             let productsList = []
             res.docs.forEach(elem => {
               productsList.push({ id: elem.id, ...elem.data()})
-              this.products = productsList
             })
+            this.products = productsList
           })        
       },
       createProductsData(){
         this.headers = new Array(Object.keys(this.productView).length)
         Object.keys(this.productView).forEach(elem => {
-          if(elem != 'id'){
+          if(elem != 'id' && elem != 'actions'){
             this.newProductKeysArray.push(elem)
             this.newProduct[elem] = ''
             this.importProductView[elem] = ''
@@ -289,6 +289,11 @@
             sortable: true
           })
         })
+        // Add fiels for parent categories choise
+        this.newProductKeysArray.push({
+          name: this.$t('parent_category'),
+          categories: this.products.map(elem => elem.id)
+        })  
         let isActions = this.headers.find(elem => elem.value == 'actions')
         if(!isActions){
           this.headers.push({

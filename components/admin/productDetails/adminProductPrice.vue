@@ -14,6 +14,11 @@
       :label="$t('price')"
     />
 
+    <v-checkbox 
+      v-model="localProduct.sale" 
+      :label="$t('show_sale_icon')"
+    />
+
     <v-btn
       color="primary"
       @click="saveInfo"
@@ -39,8 +44,8 @@
     },
     methods: {
       saveInfo(){
-        let { base_price, price } = this.localProduct
-        this.$emit('saveInfo', { base_price, price })
+        let { base_price, price, sale } = this.localProduct
+        this.$emit('saveInfo', { base_price, price, sale })
       }
     },
     mounted(){
