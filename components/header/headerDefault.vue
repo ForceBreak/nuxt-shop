@@ -1,6 +1,7 @@
 <template>
  <div>
     <client-only>
+      <downloadLoader v-if="isShowLoader"/>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -47,9 +48,6 @@
       >
         <v-icon>mdi-account</v-icon>
       </v-btn>
-
-      <downloadLoader slot="placeholder"/>
-
     </client-only>
   </div>
 </template>
@@ -67,7 +65,8 @@
       ...mapGetters({
         userName: 'auth/userName',
         userAvatar: 'auth/userAvatar',
-        isLoggedIn: 'auth/isLoggedIn'
+        isLoggedIn: 'auth/isLoggedIn',
+        isShowLoader: 'loader/isShow'
       })
     }
   }

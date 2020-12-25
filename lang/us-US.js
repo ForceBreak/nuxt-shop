@@ -33,5 +33,8 @@ export default {
   show_sale_icon: 'Show Sale icon',
   relations: 'Relations',
   view: 'View',
-  parent_category: 'Parent category'
+  parent_category: 'Parent category',
+  categories: 'Categories',
+  images: 'Images',
+  mainCatImage: 'Main category image'
 }

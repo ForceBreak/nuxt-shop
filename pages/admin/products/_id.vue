@@ -14,6 +14,7 @@
             <v-list-item
               v-for="(item, i) in items"
               :key="i"
+              @click="mixin_set_active_component(item.component)"
             >
               <v-list-item-icon class="mr-4">
                 <v-icon v-text="item.icon"></v-icon>
@@ -32,7 +33,7 @@
         tile
       >
         <div class="mx-2 py-2">
-          <component :is="activeTab" :product="product" @saveInfo="saveInfo"/>
+          <component :is="activeTab" :product="product" :categories="categories" @saveInfo="saveInfo"/>
         </div>
       </v-card>
     </v-flex>
@@ -62,15 +63,36 @@
           { icon: 'mdi-robot', text: 'SEO', component: 'adminSeo' },
           { icon: 'mdi-folder-network', text: `${this.$t('relations')}`, component: 'adminRelations' },
         ],
-        product: {}
+        product: {},
+        categories: []
       }
     },
     methods: {
-      saveInfo(arg){
-        this.$fireStore
+      async saveInfo(arg){
+        await this.$fireStore
         .collection('products')
         .doc(this.$route.params.id)
         .update(arg)
+
+        if(arg.category){
+          arg.category.forEach(async elem => {
+            let category = await this.$fireStore
+                          .collection('categories')
+                          .doc(elem)
+                          .get()
+            let categoryData = category.data()
+            if(categoryData.products){
+              categoryData.products.push(this.$route.params.id)
+            }else{
+              categoryData.products = [this.$route.params.id]
+            }
+
+            await this.$fireStore
+            .collection('categories')
+            .doc(elem)
+            .update(categoryData)
+          })
+        }
       }
     },
     computed: {
@@ -78,9 +100,18 @@
         return this.items[this.item].component
       }
     }, 
+    created(){
+      if(this.$route.query.subPage) this.item = this.items.findIndex(elem => elem.component == this.$route.query.subPage)
+    },
     async asyncData({ app, route }){
       let product = await app.$fireStore.collection('products').doc(route.params.id).get()
-      return { product: product.data() }
+      let categories = []
+      let categoriesFromDB = await app.$fireStore.collection('categories').get()
+      categoriesFromDB.forEach(elem => {
+        let cat = elem.data()
+        categories.push({id: elem.id, name: cat.name})
+      })
+      return { product: product.data(), categories: categories }
     }
   }
 </script>

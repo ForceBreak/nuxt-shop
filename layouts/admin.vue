@@ -16,8 +16,8 @@
 
     <v-content>
       <nuxt/>
-  </v-content>
-</v-app>
+    </v-content>
+  </v-app>
 </template>
 
 <script>

@@ -101,8 +101,8 @@ module.exports = {
       },
       firestore: true,
       functions: {
-        // location: 'us-central1', // Default
-        // emulatorPort: 12345
+        location: 'us-central1', // Default
+        emulatorPort: 5001
       },
       storage: true,
       realtimeDb: true,

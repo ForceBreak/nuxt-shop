@@ -33,5 +33,8 @@ export default {
   show_sale_icon: 'Показывать иконку распродажа',
   relations: 'Связи',
   view: 'Просмотр',
-  parent_category: 'Родительская категория'
+  parent_category: 'Родительская категория',
+  categories: 'Категории',
+  images: 'Изображения',
+  mainCatImage: 'Основное изображение категории'
 }

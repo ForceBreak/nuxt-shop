@@ -123,8 +123,11 @@ export default {
     ...mapMutations({
       SET_AUTH_USER: 'auth/SET_AUTH_USER',
       ADD_ROLE: 'auth/ADD_ROLE',
+      SET_LOADER_VISIBILITY: 'loader/SET_LOADER_VISIBILITY',
     }),
     async sigInGoogle(){
+      this.SET_LOADER_VISIBILITY(true)
+
       let user = await this.signViaGoogle()
       
       let userFromDB = await this.$fireStore.collection('users')
@@ -142,13 +145,19 @@ export default {
           this.ADD_ROLE('user')
           this.$router.push({name: `index___${this.mixin_locale}`})
         }
+        this.this.SET_LOADER_VISIBILITY(false)
       }else{
         this.createUserInDB(Object.assign(res, {role: this.role}))
-          .then(() => this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.mixin_locale}`}))
+          .then(() => {
+            this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.mixin_locale}`})
+            this.this.SET_LOADER_VISIBILITY(false)
+          })
       }
 
     },
     async createUser() {
+      this.SET_LOADER_VISIBILITY(true)
+
       try {
         let user = await this.$fireAuth.createUserWithEmailAndPassword(
           this.formData.email,
@@ -162,6 +171,7 @@ export default {
           await this.createUserInDB(Object.assign(user.user, {role: this.role}))
 
           this.$router.push({name: `${this.mixin_redirect_sign_in(this.role)}${this.mixin_locale}`})
+          this.SET_LOADER_VISIBILITY(false)
         }
       } catch (e) {
         alert(e)
@@ -169,6 +179,8 @@ export default {
     },
     async signInUser() {
       if(this.$refs.authForm.validate()){
+        this.SET_LOADER_VISIBILITY(true)
+
         try {
           await this.$fireAuth.signInWithEmailAndPassword(
             this.formData.email,
@@ -188,6 +200,7 @@ export default {
                   this.ADD_ROLE('user')
                   this.$router.push({name: `index___${this.mixin_locale}`})
                 }
+                this.SET_LOADER_VISIBILITY(false)
               }
             })
           })

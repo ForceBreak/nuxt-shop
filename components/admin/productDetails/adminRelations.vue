@@ -1,44 +1,19 @@
 <template>
   <v-form
     v-model="form"
-    ref="adminProductSeo"
+    ref="adminProductRelations"
   >
-    <v-text-field
-      v-model="localProduct.meta_title"
-      :value="localProduct.meta_title"
-      :label="$t('meta_title')"
-    />
-    <v-text-field
-      v-model="localProduct.meta_description"
-      :value="localProduct.meta_description"
-      :label="$t('meta_description')"
-    />
-    <v-combobox
-      v-model="localProduct.meta_keywords"
-      chips
+    <v-autocomplete
+      v-model="localProduct.category"
+      :items="categories"
+      item-text="name"
       clearable
-      :label="$t('meta_keywords')"
+      :label="$t('categories')"
+      item-value="id"
       multiple
       solo
-    >
-      <template v-slot:selection="{ attrs, item, select, selected }">
-        <v-chip
-          v-bind="attrs"
-          :input-value="selected"
-          close
-          @click="select"
-          @click:close="remove(item)"
-        >
-          <strong>{{ item }}</strong>
-        </v-chip>
-      </template>
-    </v-combobox>
-
-    <v-text-field
-      v-model="localProduct.link_text"
-      :value="localProduct.link_text"
-      :label="$t('link_text')"
-    />
+      chips
+    ></v-autocomplete>    
 
     <v-btn
       color="primary"
@@ -55,6 +30,10 @@
       product: {
         type: Object,
         default: () => {}
+      },
+      categories: {
+        type: Array,
+        default: () => []
       }
     },
     data() {
@@ -64,13 +43,13 @@
       }
     },
     methods: {
-      remove (item) {
-        this.localProduct.meta_keywords.splice(this.localProduct.meta_keywords.indexOf(item), 1)
-        this.localProduct.meta_keywords = [...this.localProduct.meta_keywords]
+      remove (item, from) {
+        this.localProduct[from].splice(this.localProduct[from].indexOf(item), 1)
+        this.localProduct[from] = [...this.localProduct[from]]
       },
       saveInfo(){
-        let { meta_title, meta_description, meta_keywords, link_text } = this.localProduct
-        this.$emit('saveInfo', { meta_title, meta_description, meta_keywords, link_text })
+        let { meta_title, meta_description, meta_keywords, link_text, category } = this.localProduct
+        this.$emit('saveInfo', { meta_title, meta_description, meta_keywords, link_text, category })
       }
     },
     mounted(){

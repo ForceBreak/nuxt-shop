@@ -19,27 +19,17 @@
       <div id="description"></div>
     </div>
 
-    <v-combobox
+    <v-autocomplete
       v-model="localProduct.parent"
+      :items="categories"
+      item-text="name"
+      item-value="id"
+      return-object
       chips
       clearable
-      :items="categories"
-      :label="$t('tags')"
-      multiple
-      solo
-    >
-      <template v-slot:selection="{ attrs, item, select, selected }">
-        <v-chip
-          v-bind="attrs"
-          :input-value="selected"
-          close
-          @click="select"
-          @click:close="remove(item)"
-        >
-          <strong>{{ item }}</strong>
-        </v-chip>
-      </template>
-    </v-combobox>
+      :label="$t('parent_category')"
+      :search-input.sync="searchCategory"
+    />
 
     <v-btn
       color="primary"
@@ -65,7 +55,8 @@
         localProduct: {},
         descriptionEditor: '',
         shortDescriptionEditor: '',
-        categories: []
+        categories: [],
+        searchCategory: ''
       }
     },
     methods: {
@@ -73,8 +64,8 @@
         this.localProduct.description = this.descriptionEditor.getContent()
         this.localProduct.short_description = this.shortDescriptionEditor.getContent()
 
-        let { name, code, description, short_description, tags } = this.localProduct
-        this.$emit('saveInfo', { name, code, description, short_description, tags })
+        let { name, parent, description, short_description } = this.localProduct
+        this.$emit('saveInfo', { name, parent, description, short_description })
       },
       remove (item) {
         this.localProduct.parent.splice(this.localProduct.parent.indexOf(item), 1)
@@ -85,11 +76,14 @@
           .collection('categories')
           .get()
           .then(res => {
-            let categoriesList = []
+            // let categoriesList = []
+            // res.docs.forEach(elem => {
+            //   categoriesList.push(elem.id)
+            // })
+            // this.categories = categoriesList
             res.docs.forEach(elem => {
-              categoriesList.push(elem.id)
+              this.categories.push({...elem.data(), id: elem.id})
             })
-            this.categories = categoriesList
           })        
       },
     },
