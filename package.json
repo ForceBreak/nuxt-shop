@@ -25,7 +25,7 @@
     "vue-xlsx": "^0.2.1",
     "vueditor": "^0.3.1",
     "vuedraggable": "^2.23.2",
-    "xlsx": "^0.15.6"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
