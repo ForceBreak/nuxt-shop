@@ -50,7 +50,7 @@
 
   import adminCategoryInfo from '~/components/admin/categoryDetails/adminCategoryInfo'
   import adminCategoryImages from '~/components/admin/categoryDetails/adminCategoryImages'
-  import adminSeo from '~/components/admin/productDetails/adminSeo'
+  import adminSeo from '~/components/admin/categoryDetails/adminSeo'
 
   export default {
     layout: 'admin',

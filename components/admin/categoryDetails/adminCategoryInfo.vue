@@ -29,6 +29,7 @@
       clearable
       :label="$t('parent_category')"
       :search-input.sync="searchCategory"
+      @click:clear="clearParent"
     />
 
     <v-btn
@@ -60,6 +61,10 @@
       }
     },
     methods: {
+      clearParent(){
+        setTimeout(() => this.localProduct.parent = {}, 0)
+        console.log(this.localProduct.parent, 'clearParent')
+      },
       saveInfo(){
         this.localProduct.description = this.descriptionEditor.getContent()
         this.localProduct.short_description = this.shortDescriptionEditor.getContent()
