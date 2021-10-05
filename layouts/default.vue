@@ -1,6 +1,6 @@
 <template>
   <v-app> 
-    <mainSidebar :drawer="drawer" :items="items"/>
+    <!-- <mainSidebar :drawer="drawer" :items="items"/> -->
     <v-app-bar
       app
       clipped-left
@@ -9,12 +9,14 @@
       dark
       height="60"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
       <v-spacer></v-spacer>
       <headerDefault />
     </v-app-bar>
 
     <v-content>
+      <v-breadcrumbs :items="items"></v-breadcrumbs>
+      {{breadcrumbs}}
       <nuxt/>
     </v-content>
   </v-app>
@@ -32,13 +34,36 @@ export default {
   data(){
     return {
       drawer: false,
+      // items: [
+      //   { icon: 'mdi-trending-up', text: 'Most Popular' },
+      //   { icon: 'mdi-youtube-subscription', text: 'Subscriptions' },
+      //   { icon: 'mdi-history', text: 'History' },
+      //   { icon: 'mdi-playlist-play', text: 'Playlists' },
+      //   { icon: 'mdi-clock', text: 'Watch Later' },
+      // ],
       items: [
-        { icon: 'mdi-trending-up', text: 'Most Popular' },
-        { icon: 'mdi-youtube-subscription', text: 'Subscriptions' },
-        { icon: 'mdi-history', text: 'History' },
-        { icon: 'mdi-playlist-play', text: 'Playlists' },
-        { icon: 'mdi-clock', text: 'Watch Later' },
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+        {
+          text: 'Link 1',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: 'Link 2',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
       ],
+    }
+  },
+  computed: {
+    breadcrumbs(){
+      console.log(this.$route.fullPath.split('/'))
+      return ''
     }
   }
 }

@@ -19,19 +19,6 @@
       <div id="description"></div>
     </div>
 
-    <v-autocomplete
-      v-model="localProduct.parent"
-      :items="categories"
-      item-text="name"
-      item-value="id"
-      return-object
-      chips
-      clearable
-      :label="$t('parent_category')"
-      :search-input.sync="searchCategory"
-      @click:clear="clearParent"
-    />
-
     <v-btn
       color="primary"
       @click="saveInfo"
@@ -56,40 +43,15 @@
         localProduct: {},
         descriptionEditor: '',
         shortDescriptionEditor: '',
-        categories: [],
-        searchCategory: ''
       }
     },
     methods: {
-      clearParent(){
-        setTimeout(() => this.localProduct.parent = {}, 0)
-        console.log(this.localProduct.parent, 'clearParent')
-      },
       saveInfo(){
         this.localProduct.description = this.descriptionEditor.getContent()
         this.localProduct.short_description = this.shortDescriptionEditor.getContent()
 
-        let { name, parent, description, short_description } = this.localProduct
-        this.$emit('saveInfo', { name, parent, description, short_description })
-      },
-      remove (item) {
-        this.localProduct.parent.splice(this.localProduct.parent.indexOf(item), 1)
-        this.localProduct.parent = [...this.localProduct.parent]
-      },
-      async getCategoriesList(){
-        await this.$fireStore
-          .collection('categories')
-          .get()
-          .then(res => {
-            // let categoriesList = []
-            // res.docs.forEach(elem => {
-            //   categoriesList.push(elem.id)
-            // })
-            // this.categories = categoriesList
-            res.docs.forEach(elem => {
-              this.categories.push({...elem.data(), id: elem.id})
-            })
-          })        
+        let { name, description, short_description } = this.localProduct
+        this.$emit('saveInfo', { name, description, short_description })
       },
     },
     mounted(){
@@ -111,8 +73,6 @@
       if(this.product.short_description){
         this.shortDescriptionEditor.setContent(this.product.short_description)
       }
-
-      this.getCategoriesList()
     },
   }
 </script>

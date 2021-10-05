@@ -288,12 +288,7 @@
             value: elem,
             sortable: true
           })
-        })
-        // Add fiels for parent categories choise
-        this.newProductKeysArray.push({
-          name: this.$t('parent_category'),
-          categories: this.products.map(elem => elem.id)
-        })  
+        }) 
         let isActions = this.headers.find(elem => elem.value == 'actions')
         if(!isActions){
           this.headers.push({

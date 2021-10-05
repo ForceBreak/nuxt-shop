@@ -1,5 +1,26 @@
 <template>
   <v-container fluid>
+    <v-slide-group
+      multiple
+      show-arrows
+    >
+      <v-slide-item
+        v-for="item in homeCategoriesCarousel"
+        :key="item.id"
+        v-slot="{ active }"
+      >
+        <v-btn
+          class="mx-2"
+          :input-value="active"
+          active-class="purple white--text"
+          depressed
+          rounded
+          :to="{ name: `categories-id___${mixin_locale}`, params: {id: item.id} }"
+        >
+          {{ item.name }}
+        </v-btn>
+      </v-slide-item>
+    </v-slide-group>
     
     <homeCategories />
 
@@ -30,7 +51,9 @@ export default {
     }
   },
   computed: {
-
+    ...mapGetters({
+      homeCategoriesCarousel: 'front/carousels/homeCategories/homeCategoriesCarousel'
+    })
   },
   methods: {
 

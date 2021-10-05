@@ -6,28 +6,18 @@
   >
     <v-card>
       <v-form
-      ref="newProductForm"
-      v-model="validNewProductForm"
-      lazy-validation
-      class="py-4 px-4"
-    >
+        ref="newProductForm"
+        v-model="validNewProductForm"
+        lazy-validation
+        class="py-4 px-4"
+      >
       <template v-for="(item, index) in newProductKeysArray">
         <v-text-field
-          v-if="typeof(item) == 'string'"
           :key="index"
           v-model="newProduct[item]"
-          :rules="[v => !!v || `${item.charAt(0).toUpperCase() + item.slice(1)} is required`]"
+          :rules="mixin_nameRules"
           :label="item.charAt(0).toUpperCase() + item.slice(1)"
           required
-        />
-        <v-select
-          v-else
-          v-model="newProduct.parent"
-          clearable
-          multiple
-          :key="index"
-          :items="item.categories"
-          :label="item.name"
         />
       </template>
 

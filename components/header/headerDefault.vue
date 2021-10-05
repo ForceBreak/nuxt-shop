@@ -2,6 +2,13 @@
  <div>
     <client-only>
       <downloadLoader v-if="isShowLoader"/>
+      <logout />
+      <v-btn 
+        v-if="role == 'admin'"
+        :to="{ name: `admin___${mixin_locale}` }"
+      >
+        Admin
+      </v-btn>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -56,17 +63,20 @@
   import { mapGetters } from 'vuex'
 
   import downloadLoader from '~/components/loaders/downloadLoader'
+  import logout from '~/components/auth/logout'
 
   export default {
     components: {
       downloadLoader,
+      logout
     },
     computed: {
       ...mapGetters({
         userName: 'auth/userName',
         userAvatar: 'auth/userAvatar',
         isLoggedIn: 'auth/isLoggedIn',
-        isShowLoader: 'loader/isShow'
+        isShowLoader: 'loader/isShow',
+        role: 'auth/role'
       })
     }
   }

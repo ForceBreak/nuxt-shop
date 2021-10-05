@@ -41,6 +41,8 @@
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
+  
   import adminProductInfo from '~/components/admin/productDetails/adminProductInfo'
   import adminProductPrice from '~/components/admin/productDetails/adminProductPrice'
   import adminSeo from '~/components/admin/productDetails/adminSeo'
@@ -68,31 +70,16 @@
       }
     },
     methods: {
+      ...mapMutations({
+        SET_LOADER_VISIBILITY: 'loader/SET_LOADER_VISIBILITY'
+      }),
       async saveInfo(arg){
+        this.SET_LOADER_VISIBILITY(true)
         await this.$fireStore
         .collection('products')
         .doc(this.$route.params.id)
         .update(arg)
-
-        if(arg.category){
-          arg.category.forEach(async elem => {
-            let category = await this.$fireStore
-                          .collection('categories')
-                          .doc(elem)
-                          .get()
-            let categoryData = category.data()
-            if(categoryData.products){
-              categoryData.products.push(this.$route.params.id)
-            }else{
-              categoryData.products = [this.$route.params.id]
-            }
-
-            await this.$fireStore
-            .collection('categories')
-            .doc(elem)
-            .update(categoryData)
-          })
-        }
+        this.SET_LOADER_VISIBILITY(false)
       }
     },
     computed: {

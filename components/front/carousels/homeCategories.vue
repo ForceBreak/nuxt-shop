@@ -5,7 +5,6 @@
       :key="category.id"
       sm="6" md="3">
       <v-card
-        :loading="loading"
         class="mx-auto my-12"
         max-width="374"
       >

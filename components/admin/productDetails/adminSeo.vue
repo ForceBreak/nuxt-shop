@@ -7,11 +7,13 @@
       v-model="localProduct.meta_title"
       :value="localProduct.meta_title"
       :label="$t('meta_title')"
+      :rules="mixin_nameRules"
     />
     <v-text-field
       v-model="localProduct.meta_description"
       :value="localProduct.meta_description"
       :label="$t('meta_description')"
+      :rules="mixin_nameRules"
     />
     <v-combobox
       v-model="localProduct.meta_keywords"
@@ -20,6 +22,7 @@
       :label="$t('meta_keywords')"
       multiple
       solo
+      :rules="mixin_keyRules"
     >
       <template v-slot:selection="{ attrs, item, select, selected }">
         <v-chip
@@ -38,6 +41,7 @@
       v-model="localProduct.link_text"
       :value="localProduct.link_text"
       :label="$t('link_text')"
+      :rules="mixin_nameRules"
     />
 
     <v-btn
@@ -69,8 +73,10 @@
         this.localProduct.meta_keywords = [...this.localProduct.meta_keywords]
       },
       saveInfo(){
-        let { meta_title, meta_description, meta_keywords, link_text } = this.localProduct
-        this.$emit('saveInfo', { meta_title, meta_description, meta_keywords, link_text })
+        if(this.$refs.adminProductSeo.validate()){
+          let { meta_title, meta_description, meta_keywords, link_text } = this.localProduct
+          this.$emit('saveInfo', { meta_title, meta_description, meta_keywords, link_text })
+        }
       }
     },
     mounted(){

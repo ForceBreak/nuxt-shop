@@ -4,11 +4,19 @@
   >
     <v-row>
       <v-col xs="12" sm="6">
-        <v-file-input
-          accept="image/*"
-          :label="$t('mainCatImage')"
-          v-model="mainImage"
-        ></v-file-input>
+        <v-form
+          ref="categoryImageForm"
+          v-model="validCategoryImageForm"
+          lazy-validation
+          class="py-4 px-4"
+        >
+          <v-file-input
+            accept="image/*"
+            :label="$t('mainCatImage')"
+            v-model="mainImage"
+            :rules="mixin_nameRules"
+          ></v-file-input>
+        </v-form>
         <v-img
           v-if="product.mainImage"
           :src="product.mainImage"
@@ -37,8 +45,9 @@
     },
     data() {
       return {
-        mainImage: [],
-        uploadValue: 0
+        mainImage: null,
+        uploadValue: 0,
+        validCategoryImageForm: true
       }
     },
     methods: {
@@ -48,29 +57,31 @@
         SET_CATEGORY: 'admin/category/SET_CATEGORY'
       }),
       saveInfo(){
-        this.SET_LOADER_VISIBILITY(true)
+        if(this.$refs.categoryImageForm.validate()){
+          this.SET_LOADER_VISIBILITY(true)
 
-        const storageRef = this.$fireStorage.ref(`categories/${this.$route.params.id}/mainImage`).put(this.mainImage)
-        storageRef.on(`state_changed`, snapshot =>{
-          this.SET_LOADER_VALUE((snapshot.bytesTransferred/snapshot.totalBytes)*100) 
-          }, error=>{
-            console.log(error.message)
-          }, () =>{
-              storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                this.$fireStore
-                .collection('categories')
-                .doc(this.$route.params.id)
-                .update({ ...this.product, mainImage: url })
+          const storageRef = this.$fireStorage.ref(`categories/${this.$route.params.id}/mainImage`).put(this.mainImage)
+          storageRef.on(`state_changed`, snapshot =>{
+            this.SET_LOADER_VALUE((snapshot.bytesTransferred/snapshot.totalBytes)*100) 
+            }, error=>{
+              console.log(error.message)
+            }, () =>{
+                storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+                  this.$fireStore
+                  .collection('categories')
+                  .doc(this.$route.params.id)
+                  .update({ ...this.product, mainImage: url })
 
-                this.SET_CATEGORY({ ...this.product, mainImage: url })
-                
-                setTimeout(() => {
-                  this.SET_LOADER_VISIBILITY(false) 
-                  this.SET_LOADER_VALUE(null)
-                }, 0 )
-              });
-            }      
-        );
+                  this.SET_CATEGORY({ ...this.product, mainImage: url })
+                  
+                  setTimeout(() => {
+                    this.SET_LOADER_VISIBILITY(false) 
+                    this.SET_LOADER_VALUE(null)
+                  }, 0 )
+                });
+              }      
+          );
+        }
       },
     },
     mounted(){

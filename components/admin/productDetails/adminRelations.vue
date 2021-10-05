@@ -9,10 +9,9 @@
       item-text="name"
       clearable
       :label="$t('categories')"
+      :rules="mixin_nameRules"
       item-value="id"
-      multiple
       solo
-      chips
     ></v-autocomplete>    
 
     <v-btn
@@ -48,8 +47,10 @@
         this.localProduct[from] = [...this.localProduct[from]]
       },
       saveInfo(){
-        let { meta_title, meta_description, meta_keywords, link_text, category } = this.localProduct
-        this.$emit('saveInfo', { meta_title, meta_description, meta_keywords, link_text, category })
+        if(this.$refs.adminProductRelations.validate()){
+          let { category } = this.localProduct
+          this.$emit('saveInfo', { category })
+        }
       }
     },
     mounted(){
