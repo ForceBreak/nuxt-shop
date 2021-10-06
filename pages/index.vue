@@ -62,7 +62,9 @@ export default {
   methods: {
   },
   mounted(){
-
+    navigator.permissions.query({name:'notifications'}).then(function(result) {
+      Notification.requestPermission()
+    });
   },
   async fetch(context) {
     // console.log(context, 'context')
