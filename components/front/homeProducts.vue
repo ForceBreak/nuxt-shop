@@ -28,7 +28,12 @@
 
         <v-card-actions class="d-flex align-center justify-space-between py-3">
           <p class="mb-0 headline font-weight-black"> {{ product.price }} грн</p>
-          <v-btn color="error">
+          <v-btn color="error" @click="initPushNotifications({
+            title: product.name,
+            body: $moment().format('DD-MM-YYYY'),
+            icon: product.mainImage,
+            url: `${$origin}/products/${product.id}`
+          })">
             В корзину
           </v-btn>
         </v-card-actions>
@@ -57,6 +62,8 @@ export default {
     ...mapGetters({
       homeProducts: 'front/homeProducts/homeProducts'
     })
+  },
+  mounted(){
   }
 }
 </script>

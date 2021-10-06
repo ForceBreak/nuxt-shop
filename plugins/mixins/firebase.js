@@ -32,6 +32,35 @@ export default {
       .then(response => {
         this.ADD_ROLE(role)
       })
+    },
+    async initPushNotifications(notification) {
+      const currentToken = await this.$fireMess.getToken()
+      const data = JSON.stringify({
+        notification,
+        to: currentToken
+      })
+      const config = {
+        method: 'post',
+        url: 'https://fcm.googleapis.com/fcm/send',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': 'key=AAAAEf9JaLs:APA91bHdbmV_pP4CqaOPMmfsxv7xtshvMV4fM7l1SMbvZcL4MQCr3j9FchHq06qVVqjlrujgi1o7Ep-ohFQG27XuX-fY0vIiPz_VEwCQiKVTQ-8n75SdaVVu34KoHze3Jbnpu7qVRVTx'
+        },
+        data
+      };
+
+      await this.$axios(config)
+      
+      this.$fireMess.onMessage((payload) => {
+        navigator.serviceWorker.ready.then(function(serviceWorker) {
+          serviceWorker.showNotification(payload.notification.title, { ...payload.notification, data: { url: payload.data['gcm.notification.url'] } });
+        });
+        console.info('Message received: ', payload)
+      })
+      // this.$fireMess.onTokenRefresh(async () => {
+      //   const refreshToken = await this.$fireMess.getToken()
+      //   console.log('Token Refreshed',refreshToken)
+      // })
     }
   }
 }

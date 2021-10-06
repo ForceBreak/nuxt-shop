@@ -1,3 +1,6 @@
+const fs = require('fs')
+const { firebaseOptions } = require('./helpers/general')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -29,7 +32,8 @@ module.exports = {
   },
 
   plugins: ["~/plugins/mixins/mixins.js", 
-    { src: '~/plugins/vueditor.js', ssr: false }
+    { src: '~/plugins/vueditor.js', ssr: false },
+    { src: '~/plugins/origin.js', ssr: false }
   ],
 
   modules: ['@nuxtjs/firebase', '@nuxtjs/pwa', 'nuxt-moment',
@@ -57,6 +61,7 @@ module.exports = {
         { key: 'ADMIN_EMAIL', default: 'gbuecjd18@gmail.com', secret: false },
       ]
     }]
+    ,'@nuxtjs/axios'
   ],
   
   buildModules: [
@@ -65,28 +70,8 @@ module.exports = {
 
   firebase: {
     config: {
-      production: {
-        apiKey: "AIzaSyA4Wi5BcCh3pmrwbDOdDP80wz-KglgnOzw",
-        authDomain: "nuxt-shop-93181.firebaseapp.com",
-        databaseURL: "https://nuxt-shop-93181.firebaseio.com",
-        projectId: "nuxt-shop-93181",
-        storageBucket: "nuxt-shop-93181.appspot.com",
-        messagingSenderId: "77297445051",
-        appId: "1:77297445051:web:65e16a6dcbe955f3e7619e",
-        measurementId: "G-ZNKZ29139Y",
-        fcmPublicVapidKey: 'BClj63QTFLWlGMzhj7V2totJIOz-NkcjCp2qXAbgGxrhig0DwBxLXSuUVliOcAbOUSGDSZ13g3GoNsUOBZnUa7U'
-      },
-      development: {
-        apiKey: "AIzaSyA4Wi5BcCh3pmrwbDOdDP80wz-KglgnOzw",
-        authDomain: "nuxt-shop-93181.firebaseapp.com",
-        databaseURL: "https://nuxt-shop-93181.firebaseio.com",
-        projectId: "nuxt-shop-93181",
-        storageBucket: "nuxt-shop-93181.appspot.com",
-        messagingSenderId: "77297445051",
-        appId: "1:77297445051:web:65e16a6dcbe955f3e7619e",
-        measurementId: "G-ZNKZ29139Y",
-        fcmPublicVapidKey: 'BClj63QTFLWlGMzhj7V2totJIOz-NkcjCp2qXAbgGxrhig0DwBxLXSuUVliOcAbOUSGDSZ13g3GoNsUOBZnUa7U'
-      }
+      production: firebaseOptions,
+      development: firebaseOptions
     },
     customEnv: false,
     onFirebaseHosting: false,
@@ -118,18 +103,23 @@ module.exports = {
         }
       },
       messaging: {
-        createServiceWorker: true
+        messaging: {
+          createServiceWorker: true,
+          fcmPublicVapidKey: firebaseOptions.fcmPublicVapidKey, // OPTIONAL : Sets vapid key for FCM after initialization
+        }
       }
     }
   },
   pwa: {
     workbox: {
       importScripts: [
-        '/firebase-auth-sw.js'
+        '/firebase-auth-sw.js',
+        '/serviceWorker.js'
       ],
       // by default the workbox module will not install the service worker in dev environment to avoid conflicts with HMR
       // only set this true for testing and remember to always clear your browser cache in development
-      dev: true
+      dev: true,
+      skipWaiting: true
     }
   },
   vuetify: {

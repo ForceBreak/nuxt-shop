@@ -1,0 +1,10 @@
+{
+    "name": "Nuxt shop test",
+    "short_name": "Nuxt shop",
+    "theme_color": "#2196f3",
+    "background_color": "#2196f3",
+    "display": "browser",
+    "scope": "/",
+    "start_url": "/",
+    "gcm_sender_id": "77297445051"
+}

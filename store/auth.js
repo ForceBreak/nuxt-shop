@@ -1,14 +1,3 @@
-// import * as firebase from 'firebase'
-// import firebaseConf from '../plugins/firebase'
-// import 'firebase/firestore'
-
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConf)
-// }
-
-// // Initialize Cloud Firestore through Firebase
-// const db = firebase.firestore();
-
 export const state = () => ({
   authUser: {},
   role: null

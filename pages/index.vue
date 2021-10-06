@@ -30,6 +30,7 @@
       <v-col>
         hello
         <nuxt-link :to="{ name: `auth___${mixin_locale}` }">Auth</nuxt-link>
+        <v-btn @click="initPushNotifications">Send push</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -59,6 +60,8 @@ export default {
     })
   },
   methods: {
+  },
+  mounted(){
 
   },
   async fetch(context) {
