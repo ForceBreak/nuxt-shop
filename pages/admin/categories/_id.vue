@@ -37,6 +37,8 @@
           <component 
             :is="activeTab" 
             :product="category" 
+            :mutationName="'SET_CATEGORY'"
+            :collectionName="'categories'"
             @saveInfo="saveInfo"
           />
         </div>
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   import adminCategoryInfo from '~/components/admin/categoryDetails/adminCategoryInfo'
   import adminCategoryImages from '~/components/admin/categoryDetails/adminCategoryImages'
@@ -71,11 +73,15 @@
       }
     },
     methods: {
-      saveInfo(arg){
-        this.$fireStore
-        .collection('categories')
-        .doc(this.$route.params.id)
-        .update(arg)
+      ...mapActions({
+        UPDATE_ITEM: 'admin/general/UPDATE_ITEM'
+      }),
+      async saveInfo(arg){
+        await this.UPDATE_ITEM({
+          id: this.$route.params.id,
+          data: arg,
+          collection: 'categories'
+        })
       },
       async firebaseFunc(){
         console.log(await this.$fireFunc.call('getProductsByCategory', {
@@ -85,7 +91,7 @@
     },
     computed: {
       ...mapGetters({
-        category: 'admin/category/category'
+        category: 'admin/categories/category'
       }),
       activeTab() {
         return this.items[this.item].component
@@ -95,7 +101,11 @@
       if(this.$route.query.subPage) this.item = this.items.findIndex(elem => elem.component == this.$route.query.subPage)
     },
     async asyncData({ app, route }){
-      await app.store.dispatch('admin/category/GET_CATEGORY', route.params.id)
+      await app.store.dispatch('admin/general/GET_ITEM', {
+        data: route.params.id,
+        collection: 'categories',
+        mutationName: 'SET_CATEGORY'
+      })
     }
   }
 </script>

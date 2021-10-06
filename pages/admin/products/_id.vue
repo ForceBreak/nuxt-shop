@@ -33,7 +33,14 @@
         tile
       >
         <div class="mx-2 py-2">
-          <component :is="activeTab" :product="product" :categories="categories" @saveInfo="saveInfo"/>
+          <component 
+            :is="activeTab" 
+            :product="product" 
+            :categories="categories" 
+            :mutationName="'SET_PRODUCT'"
+            :collectionName="'products'"
+            @saveInfo="saveInfo"
+          />
         </div>
       </v-card>
     </v-flex>
@@ -41,10 +48,11 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapActions, mapMutations, mapGetters } from 'vuex'
   
   import adminProductInfo from '~/components/admin/productDetails/adminProductInfo'
   import adminProductPrice from '~/components/admin/productDetails/adminProductPrice'
+  import adminCategoryImages from '~/components/admin/categoryDetails/adminCategoryImages'
   import adminSeo from '~/components/admin/productDetails/adminSeo'
   import adminRelations from '~/components/admin/productDetails/adminRelations'
 
@@ -53,6 +61,7 @@
     components: {
       adminProductInfo,
       adminProductPrice,
+      adminCategoryImages,
       adminSeo,
       adminRelations,
     },
@@ -62,43 +71,54 @@
         items: [
           { icon: 'mdi-information-outline', text: `${this.$t('info')}`, component:  'adminProductInfo'},
           { icon: 'mdi-cash', text: `${this.$t('price')}`, component: 'adminProductPrice' },
+          { icon: 'mdi-image', text: `${this.$t('images')}`, component: 'adminCategoryImages' },
           { icon: 'mdi-robot', text: 'SEO', component: 'adminSeo' },
           { icon: 'mdi-folder-network', text: `${this.$t('relations')}`, component: 'adminRelations' },
         ],
-        product: {},
         categories: []
       }
     },
     methods: {
+      ...mapActions({
+        UPDATE_ITEM: 'admin/general/UPDATE_ITEM'
+      }),
       ...mapMutations({
         SET_LOADER_VISIBILITY: 'loader/SET_LOADER_VISIBILITY'
       }),
       async saveInfo(arg){
         this.SET_LOADER_VISIBILITY(true)
-        await this.$fireStore
-        .collection('products')
-        .doc(this.$route.params.id)
-        .update(arg)
+        await this.UPDATE_ITEM({
+          id: this.$route.params.id,
+          data: arg,
+          collection: 'products'
+        })
         this.SET_LOADER_VISIBILITY(false)
       }
     },
     computed: {
       activeTab() {
         return this.items[this.item].component
-      }
+      },
+      ...mapGetters({
+        product: 'admin/products/product'
+      }),
     }, 
     created(){
       if(this.$route.query.subPage) this.item = this.items.findIndex(elem => elem.component == this.$route.query.subPage)
     },
     async asyncData({ app, route }){
-      let product = await app.$fireStore.collection('products').doc(route.params.id).get()
+      await app.store.dispatch('admin/general/GET_ITEM', {
+        data: route.params.id,
+        collection: 'products',
+        mutationName: 'SET_PRODUCT'
+      })
       let categories = []
       let categoriesFromDB = await app.$fireStore.collection('categories').get()
       categoriesFromDB.forEach(elem => {
         let cat = elem.data()
         categories.push({id: elem.id, name: cat.name})
       })
-      return { product: product.data(), categories: categories }
+      return { categories: categories }
     }
   }
 </script>

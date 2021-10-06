@@ -36,5 +36,8 @@ export default {
   parent_category: 'Parent category',
   categories: 'Categories',
   images: 'Images',
-  mainCatImage: 'Main category image'
+  mainCatImage: 'Main category image',
+
+  categories: 'Categories', //routes
+  mainPage: 'Main page'
 }

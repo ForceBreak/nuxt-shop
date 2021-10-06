@@ -11,12 +11,12 @@
         lazy-validation
         class="py-4 px-4"
       >
-      <template v-for="(item, index) in newProductKeysArray">
+      <template v-for="(item, index) in localKeys">
         <v-text-field
           :key="index"
-          v-model="newProduct[item]"
+          v-model="newProduct[item.name]"
           :rules="mixin_nameRules"
-          :label="item.charAt(0).toUpperCase() + item.slice(1)"
+          :label="item.name.charAt(0).toUpperCase() + item.name.slice(1)"
           required
         />
       </template>
@@ -61,7 +61,8 @@
     data() {
       return {
         newOne: false,
-        validNewProductForm: true
+        validNewProductForm: true,
+        localKeys: []
       }
     },
     methods: {
@@ -81,6 +82,10 @@
         }
       },
     },
+    mounted(){
+      this.localKeys = this.newProductKeysArray.filter(elem => elem.name != 'category' && elem.name != 'image' && elem.name != 'code')
+      this.localKeys = this.localKeys.sort((a, b) => a.index - b.index)
+    }
   }
 </script>
 

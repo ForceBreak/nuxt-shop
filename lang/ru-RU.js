@@ -36,5 +36,8 @@ export default {
   parent_category: 'Родительская категория',
   categories: 'Категории',
   images: 'Изображения',
-  mainCatImage: 'Основное изображение категории'
+  mainCatImage: 'Основное изображение категории',
+
+  categories: 'Категории', //routes
+  mainPage: 'Главная',
 }

@@ -74,7 +74,7 @@
       saveInfo(){
         this.localProduct.description = this.descriptionEditor.getContent()
         this.localProduct.short_description = this.shortDescriptionEditor.getContent()
-
+        
         let { name, code, description, short_description, tags } = this.localProduct
         this.$emit('saveInfo', { name, code, description, short_description, tags })
       },

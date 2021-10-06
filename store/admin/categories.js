@@ -14,8 +14,4 @@ export const mutations = {
   }
 }
 export const actions = { 
-  async GET_CATEGORY( {commit}, payload ){
-    let category = await firebase.firestore().collection('categories').doc(payload).get()
-    commit('SET_CATEGORY', category.data())
-  }
 }

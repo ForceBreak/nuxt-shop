@@ -41,7 +41,17 @@
       product: {
         type: Object,
         default: () => {}
-      }
+      },
+      mutationName: {
+        type: String,
+        default: '',
+        required: true
+      },
+      collectionName: {
+        type: String,
+        default: '',
+        required: true
+      },
     },
     data() {
       return {
@@ -54,13 +64,14 @@
       ...mapMutations({
         SET_LOADER_VISIBILITY: 'loader/SET_LOADER_VISIBILITY',
         SET_LOADER_VALUE: 'loader/SET_LOADER_VALUE',
-        SET_CATEGORY: 'admin/category/SET_CATEGORY'
+        SET_CATEGORY: 'admin/categories/SET_CATEGORY',
+        SET_PRODUCT: 'admin/products/SET_PRODUCT'
       }),
       saveInfo(){
         if(this.$refs.categoryImageForm.validate()){
           this.SET_LOADER_VISIBILITY(true)
 
-          const storageRef = this.$fireStorage.ref(`categories/${this.$route.params.id}/mainImage`).put(this.mainImage)
+          const storageRef = this.$fireStorage.ref(`${this.collectionName}/${this.$route.params.id}/mainImage`).put(this.mainImage)
           storageRef.on(`state_changed`, snapshot =>{
             this.SET_LOADER_VALUE((snapshot.bytesTransferred/snapshot.totalBytes)*100) 
             }, error=>{
@@ -68,11 +79,11 @@
             }, () =>{
                 storageRef.snapshot.ref.getDownloadURL().then((url)=>{
                   this.$fireStore
-                  .collection('categories')
+                  .collection(`${this.collectionName}`)
                   .doc(this.$route.params.id)
                   .update({ ...this.product, mainImage: url })
 
-                  this.SET_CATEGORY({ ...this.product, mainImage: url })
+                  this[this.mutationName]({ ...this.product, mainImage: url })
                   
                   setTimeout(() => {
                     this.SET_LOADER_VISIBILITY(false) 

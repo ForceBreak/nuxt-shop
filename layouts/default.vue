@@ -15,8 +15,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-breadcrumbs :items="items"></v-breadcrumbs>
-      {{breadcrumbs}}
+      <breadcrumbs />
       <nuxt/>
     </v-content>
   </v-app>
@@ -24,47 +23,21 @@
 
 <script>
 import headerDefault from '~/components/header/headerDefault.vue'
+import breadcrumbs from '~/components/breadcrumbs.vue'
 import mainSidebar from '~/components/mainSidebar'
 
 export default {
   components: {
     headerDefault,
-    mainSidebar
+    mainSidebar,
+    breadcrumbs
   },
   data(){
     return {
       drawer: false,
-      // items: [
-      //   { icon: 'mdi-trending-up', text: 'Most Popular' },
-      //   { icon: 'mdi-youtube-subscription', text: 'Subscriptions' },
-      //   { icon: 'mdi-history', text: 'History' },
-      //   { icon: 'mdi-playlist-play', text: 'Playlists' },
-      //   { icon: 'mdi-clock', text: 'Watch Later' },
-      // ],
-      items: [
-        {
-          text: 'Dashboard',
-          disabled: false,
-          href: 'breadcrumbs_dashboard',
-        },
-        {
-          text: 'Link 1',
-          disabled: false,
-          href: 'breadcrumbs_link_1',
-        },
-        {
-          text: 'Link 2',
-          disabled: true,
-          href: 'breadcrumbs_link_2',
-        },
-      ],
     }
   },
   computed: {
-    breadcrumbs(){
-      console.log(this.$route.fullPath.split('/'))
-      return ''
-    }
   }
 }
 </script>
