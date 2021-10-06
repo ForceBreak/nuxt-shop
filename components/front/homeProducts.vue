@@ -28,7 +28,7 @@
 
         <v-card-actions class="d-flex align-center justify-space-between py-3">
           <p class="mb-0 headline font-weight-black"> {{ product.price }} грн</p>
-          <v-btn color="error" @click="initPushNotifications({
+          <v-btn color="error" @click="setToCart({
             title: product.name,
             body: $moment().format('DD-MM-YYYY'),
             icon: product.mainImage,
@@ -63,7 +63,13 @@ export default {
       homeProducts: 'front/homeProducts/homeProducts'
     })
   },
+  methods: {
+    async setToCart(item){
+      await this.$fireStore.collection('carts').doc('cart1').set(item)
+    }
+  },
   mounted(){
+
   }
 }
 </script>

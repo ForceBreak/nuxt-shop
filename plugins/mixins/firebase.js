@@ -55,7 +55,7 @@ export default {
         navigator.serviceWorker.ready.then(function(serviceWorker) {
           serviceWorker.showNotification(payload.notification.title, { ...payload.notification, data: { url: payload.data['gcm.notification.url'] } });
         });
-        console.info('Message received: ', payload)
+        
       })
       // this.$fireMess.onTokenRefresh(async () => {
       //   const refreshToken = await this.$fireMess.getToken()

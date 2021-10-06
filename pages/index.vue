@@ -56,15 +56,24 @@ export default {
   },
   computed: {
     ...mapGetters({
-      homeCategoriesCarousel: 'front/carousels/homeCategories/homeCategoriesCarousel'
+      homeCategoriesCarousel: 'front/carousels/homeCategories/homeCategoriesCarousel',
+      role: 'auth/role'
     })
   },
   methods: {
   },
   mounted(){
-    navigator.permissions.query({name:'notifications'}).then(function(result) {
-      Notification.requestPermission()
-    });
+    if(this.role == 'admin'){
+      navigator.permissions.query({name:'notifications'}).then(function(result) {
+        Notification.requestPermission()
+      });
+
+      this.$fireStore.collection("carts").doc("cart1")
+      .onSnapshot((doc) => {
+        this.initPushNotifications(doc.data())
+          // console.log("Current data: ", doc.data());
+      });
+    }
   },
   async fetch(context) {
     // console.log(context, 'context')
