@@ -3,9 +3,11 @@
     <v-col
       v-for="product in homeProducts" 
       :key="product.id"
-      sm="6" md="3">
+      sm="6" md="3"
+      class="py-0"
+    >
       <v-card
-        class="mx-auto my-12"
+        class="mx-auto mb-6"
         max-width="374"
       >
         <nuxt-link :to="{ name: `products-id___${mixin_locale}`, params: {id: product.id} }">
@@ -21,7 +23,7 @@
         <v-card-title class="pt-2">{{ product.name }}</v-card-title>
 
         <v-card-text>
-          <div class="text--primary">{{ product.description }}</div>
+          <div class="text--primary">{{ mixin_truncate(product.description, 70) }}</div>
         </v-card-text>
 
         <v-divider class="mx-4"></v-divider>
@@ -65,7 +67,7 @@ export default {
   },
   methods: {
     async setToCart(item){
-      await this.$fireStore.collection('carts').doc('cart1').set(item)
+      await this.$fireStore.collection('carts').doc().set({ ...item, notified: false })
     }
   },
   mounted(){

@@ -38,6 +38,40 @@ export default {
     }
   },
   computed: {
+  },
+  mounted(){
+        if(this.role == 'admin'){
+      navigator.permissions
+      .query({name:'notifications'})
+      .then(async (result) => {
+        if(result.state != 'granted') {
+          let permissions = await Notification.requestPermission()
+          if(permissions == 'granted'){
+            this.$fireStore.collection("carts")
+            .where("notified", "==", false)
+            .onSnapshot((data) =>{
+              if(data.docs.length){
+                data.docs.forEach(async elem => {
+                  await this.initPushNotifications(elem.data())
+                  await this.$fireStore.collection("carts").doc(elem.id).update({ notified: true })
+                })
+              }
+            });
+          }
+        }else if(result.state == 'granted'){
+          this.$fireStore.collection("carts")
+          .where("notified", "==", false)
+          .onSnapshot((data) =>{
+            if(data.docs.length){
+              data.docs.forEach(async elem => {
+                await this.initPushNotifications(elem.data())
+                await this.$fireStore.collection("carts").doc(elem.id).update({ notified: true })
+              })
+            }
+          });
+        }
+      });
+    }
   }
 }
 </script>

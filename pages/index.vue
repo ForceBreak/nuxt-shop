@@ -22,17 +22,11 @@
       </v-slide-item>
     </v-slide-group>
     
+    <homeCarousel :slides="homeSlides"/>
     <!-- <homeCategories /> -->
-
+    <h2 class="my-6">Главная</h2>
     <homeProducts />
 
-    <v-row>
-      <v-col>
-        hello
-        <nuxt-link :to="{ name: `auth___${mixin_locale}` }">Auth</nuxt-link>
-        <v-btn @click="initPushNotifications">Send push</v-btn>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
@@ -40,14 +34,16 @@
 
 import { mapGetters } from 'vuex'
 import * as firebase from 'firebase'
-// import homeCategories from '~/components/front/carousels/homeCategories'
+import homeCategories from '~/components/front/carousels/homeCategories'
+import homeCarousel from '~/components/front/carousels/homeCarousel'
 import homeProducts from '~/components/front/homeProducts'
 
 export default {
   name: 'indexPage',
   components: {
     // homeCategories,
-    homeProducts
+    homeProducts,
+    homeCarousel
   },
   data(){
     return {
@@ -57,28 +53,19 @@ export default {
   computed: {
     ...mapGetters({
       homeCategoriesCarousel: 'front/carousels/homeCategories/homeCategoriesCarousel',
-      role: 'auth/role'
+      role: 'auth/role',
+      homeSlides: 'admin/modules/home-slider/homeSlides'
     })
   },
   methods: {
   },
   mounted(){
-    if(this.role == 'admin'){
-      navigator.permissions.query({name:'notifications'}).then(function(result) {
-        Notification.requestPermission()
-      });
-
-      this.$fireStore.collection("carts").doc("cart1")
-      .onSnapshot((doc) => {
-        this.initPushNotifications(doc.data())
-          // console.log("Current data: ", doc.data());
-      });
-    }
   },
   async fetch(context) {
     // console.log(context, 'context')
     let categories = await firebase.firestore().collection('categories').get()
     let products = await firebase.firestore().collection('products').get()
+    await context.store.dispatch('admin/modules/home-slider/GET_HOME_SLIDES')
 
     let uploadedCategories = []
     categories.docs.forEach(elem => uploadedCategories.push({...elem.data(), id: elem.id}))

@@ -3,12 +3,15 @@
     <client-only>
       <downloadLoader v-if="isShowLoader"/>
       <logout />
-      <v-btn 
-        v-if="role == 'admin'"
-        :to="{ name: `admin___${mixin_locale}` }"
-      >
-        Admin
-      </v-btn>
+      <template v-if="role == 'admin'">
+        <v-btn v-if="$route.name.split('___')[0] == 'admin'" :to="{ name: `index___${mixin_locale}` }">
+          Front
+        </v-btn>
+        <v-btn v-else :to="{ name: `admin___${mixin_locale}` }">
+          Admin
+        </v-btn>
+      </template>
+      
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -78,6 +81,8 @@
         isShowLoader: 'loader/isShow',
         role: 'auth/role'
       })
+    },
+    mounted(){
     }
   }
 </script>

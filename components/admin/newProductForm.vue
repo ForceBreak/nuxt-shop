@@ -68,8 +68,10 @@
     methods: {
       changeVisibility(){
         this.newOne = !this.newOne
-        if(!this.newOne)
-          this.$refs.newProductForm.resetValidation()
+        if(!this.newOne) this.$refs.newProductForm.resetValidation()
+          
+        this.localKeys = this.newProductKeysArray.filter(elem => elem.name != 'category' && elem.name != 'image' && elem.name != 'code' && elem.name != 'base_price')
+        this.localKeys = this.localKeys.sort((a, b) => a.index - b.index)
       },
       async createProduct(){
         if(this.$refs.newProductForm.validate()){
@@ -83,8 +85,7 @@
       },
     },
     mounted(){
-      this.localKeys = this.newProductKeysArray.filter(elem => elem.name != 'category' && elem.name != 'image' && elem.name != 'code')
-      this.localKeys = this.localKeys.sort((a, b) => a.index - b.index)
+      
     }
   }
 </script>

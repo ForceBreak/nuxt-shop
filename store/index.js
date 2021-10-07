@@ -1,7 +1,7 @@
 import * as firebase from 'firebase'
 import { firebaseOptions } from '~/helpers/general'
-
-if(firebase.apps.length < 2) firebase.initializeApp(firebaseOptions)
+console.log(firebase.apps.length)
+if(firebase.apps.length === 0) firebase.initializeApp(firebaseOptions)
 
 export const actions = { 
   async nuxtServerInit({ dispatch, commit, state }, { res }) {

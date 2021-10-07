@@ -53,7 +53,12 @@ export default {
       
       this.$fireMess.onMessage((payload) => {
         navigator.serviceWorker.ready.then(function(serviceWorker) {
-          serviceWorker.showNotification(payload.notification.title, { ...payload.notification, data: { url: payload.data['gcm.notification.url'] } });
+          serviceWorker.showNotification(payload.notification.title, 
+            { 
+              ...payload.notification, 
+              data: { url: payload.data['gcm.notification.url'] 
+            } 
+          });
         });
         
       })
@@ -61,6 +66,9 @@ export default {
       //   const refreshToken = await this.$fireMess.getToken()
       //   console.log('Token Refreshed',refreshToken)
       // })
+    },
+    async updateCart(id){
+      await this.$fireStore.collection("carts").doc(id).update({ notified: true })
     }
   }
 }

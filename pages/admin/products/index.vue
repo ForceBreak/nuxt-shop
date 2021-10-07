@@ -90,6 +90,10 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </template>
+
+        <template v-slot:item.description="{ item }">
+          {{ mixin_truncate(item.description, 20) }}
+        </template>
       </v-data-table>
     </v-card>
 
