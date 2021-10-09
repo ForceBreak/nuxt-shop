@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <hooper :settings="hooperSettings" class="home-carousel">
+  <div class="home-carousel">
+    <hooper :settings="hooperSettings">
       <slide 
         v-for="slide in slides"
         :key="slide.id"
@@ -46,7 +46,7 @@
 
 <style lang="scss">
 .home-carousel{
-  &.hooper{
+  .hooper{
     height: 400px;
     @media (max-width: 767px) {
       height: 200px;
