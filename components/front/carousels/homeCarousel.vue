@@ -5,7 +5,14 @@
         v-for="slide in slides"
         :key="slide.id"
       >
-        <v-img :src="slide.mainImage" />
+        <nuxt-link 
+          v-if="slide.link && slide.link.length" 
+          :to="slide.link"
+        >
+          <v-img :src="slide.mainImage" />
+        </nuxt-link>
+        
+        <v-img v-else :src="slide.mainImage" />
       </slide>
 
       <hooper-pagination slot="hooper-addons"></hooper-pagination>
