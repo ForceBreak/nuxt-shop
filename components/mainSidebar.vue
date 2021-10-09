@@ -1,58 +1,52 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    app
-    clipped
-  >
-    <v-list dense>
+  <v-list dense>
+    <v-list-item
+      v-for="item in items"
+      :key="item.text"
+      link
+      :to="item.link"
+    >
+      <v-list-item-action>
+        <v-icon>{{ item.icon }}</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ item.text }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <client-only>
       <v-list-item
-        v-for="item in items"
-        :key="item.text"
-        link
-        :to="item.link"
+        v-if="isLoggedIn" 
+        link 
+        @click="logout"
       >
         <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon>mdi-logout</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>
-            {{ item.text }}
+            {{ $t('logout') }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-
-      <client-only>
-        <v-list-item
-          v-if="isLoggedIn" 
-          link 
-          @click="logout"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ $t('logout') }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          v-else
-          link 
-          :to="{ name: `auth___${mixin_locale}` }"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-login</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ $t('signIn') }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </client-only>
-    </v-list>
-  </v-navigation-drawer>
+      <v-list-item
+        v-else
+        link 
+        :to="{ name: `auth___${mixin_locale}` }"
+      >
+        <v-list-item-action>
+          <v-icon>mdi-login</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t('signIn') }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </client-only>
+  </v-list>
 </template>
 
 <script>

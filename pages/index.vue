@@ -1,33 +1,38 @@
 <template>
-  <v-container fluid>
-    <v-slide-group
-      multiple
-      show-arrows
-    >
-      <v-slide-item
-        v-for="item in homeCategoriesCarousel"
-        :key="item.id"
-        v-slot="{ active }"
+  <div>
+    <v-container fluid>
+      <v-slide-group
+        multiple
+        show-arrows
       >
-        <v-btn
-          class="mx-2"
-          :input-value="active"
-          active-class="purple white--text"
-          depressed
-          rounded
-          :to="{ name: `categories-id___${mixin_locale}`, params: {id: item.id} }"
+        <v-slide-item
+          v-for="item in homeCategoriesCarousel"
+          :key="item.id"
+          v-slot="{ active }"
         >
-          {{ item.name }}
-        </v-btn>
-      </v-slide-item>
-    </v-slide-group>
-    
-    <homeCarousel :slides="homeSlides"/>
-    <!-- <homeCategories /> -->
-    <h2 class="my-6">Главная</h2>
-    <homeProducts />
+          <v-btn
+            class="mx-2"
+            :input-value="active"
+            active-class="purple white--text"
+            depressed
+            rounded
+            :to="{ name: `categories-id___${mixin_locale}`, params: {id: item.id} }"
+          >
+            {{ item.name }}
+          </v-btn>
+        </v-slide-item>
+      </v-slide-group>
+    </v-container>
 
-  </v-container>
+    <homeCarousel :slides="homeSlides" class="my-4"/>
+
+    <v-container fluid>
+      <!-- <homeCategories /> -->
+      <h2 class="my-6">Главная</h2>
+      <homeProducts />
+
+    </v-container>
+  </div>
 </template>
 
 <script>

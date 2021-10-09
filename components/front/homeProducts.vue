@@ -3,13 +3,10 @@
     <v-col
       v-for="product in homeProducts" 
       :key="product.id"
-      sm="6" md="3"
+      sm="6" md="4" lg="3"
       class="py-0"
     >
-      <v-card
-        class="mx-auto mb-6"
-        max-width="374"
-      >
+      <v-card class="mx-auto mb-6">
         <nuxt-link :to="{ name: `products-id___${mixin_locale}`, params: {id: product.id} }">
           <v-img
             height="200"

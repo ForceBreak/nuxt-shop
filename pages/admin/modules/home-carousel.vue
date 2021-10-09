@@ -24,6 +24,17 @@
             clearable
             rows="3"
           />
+
+          <v-text-field 
+            v-model="carouselItem.link"
+            :value="carouselItem.link"
+            label="Ссылка, начинать с /"
+          >
+            <template v-slot:append>
+              <infoIcon :text="`без ${$origin}`" />
+            </template>
+
+          </v-text-field>
         </v-col>
         <v-col xs="12" sm="6">
           <v-file-input
@@ -86,11 +97,13 @@
 <script>
   import { mapGetters, mapMutations, mapActions } from 'vuex'
   import removeItem from '~/components/removeItem'
+  import infoIcon from '~/components/infoIcon'
 
   export default {
     layout: 'admin',
     components: {
-      removeItem
+      removeItem,
+      infoIcon
     },
     data(){
       return{
@@ -99,7 +112,8 @@
         carouselItem: {
           mainImage: '',
           description: '',
-          description_short: ''
+          description_short: '',
+          link: ''
         },
         showDeleteConfirm: false
       }

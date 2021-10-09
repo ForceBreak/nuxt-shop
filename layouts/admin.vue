@@ -1,6 +1,12 @@
 <template>
-  <v-app> 
-    <mainSidebar :drawer="drawer" :items="items"/>
+  <v-app>
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      clipped
+    >
+      <mainSidebar :drawer="drawer" :items="items"/>
+    </v-navigation-drawer>
     <v-app-bar
       app
       clipped-left
@@ -31,7 +37,7 @@ export default {
   },
   data(){
     return {
-      drawer: true,
+      drawer: false,
     }
   },
   computed: {
