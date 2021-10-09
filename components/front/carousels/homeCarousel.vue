@@ -5,14 +5,9 @@
         v-for="slide in slides"
         :key="slide.id"
       >
-        <nuxt-link 
-          v-if="slide.link && slide.link.length" 
-          :to="slide.link"
-        >
-          <v-img :src="slide.mainImage" />
-        </nuxt-link>
+        <nuxt-link v-if="slide.link && slide.link.length" :to="slide.link" class="slide-link"></nuxt-link>
         
-        <v-img v-else :src="slide.mainImage" />
+        <v-img :src="slide.mainImage" />
       </slide>
 
       <hooper-pagination slot="hooper-addons"></hooper-pagination>
@@ -99,6 +94,7 @@
       }
     }
     &-slide{
+      position: relative;
       &>div{
         height: 100%;
         border-top: 10px solid #fff;
@@ -115,6 +111,14 @@
         &>div{
           border: 0;
         }
+      }
+      .slide-link{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
       }
     }
   }
