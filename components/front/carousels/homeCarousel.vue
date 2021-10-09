@@ -46,7 +46,7 @@
 
 <style lang="scss">
 .home-carousel{
-  .hooper{
+  &.hooper{
     height: 400px;
     @media (max-width: 767px) {
       height: 200px;
