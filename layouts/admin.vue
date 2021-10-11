@@ -48,6 +48,26 @@ export default {
           { icon: 'mdi-cog', text: 'Modules', link: {name: `admin-modules___${this.mixin_locale}`} },
       ]
     }
+  },
+  mounted(){
+    navigator.permissions
+    .query({name:'notifications'})
+    .then(async (result) => {
+      if(result.state != 'granted') {
+        await Notification.requestPermission()
+      }
+      console.log(result)
+      this.$fireStore.collection("carts")
+      .where("notified", "==", false)
+      .onSnapshot((data) =>{
+        if(data.docs.length){
+          data.docs.forEach(async elem => {
+            await this.initPushNotifications(elem.data())
+            await this.updateCart(elem.id)
+          })
+        }
+      });
+    });
   }
 }
 </script>

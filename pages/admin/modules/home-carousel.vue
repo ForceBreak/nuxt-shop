@@ -31,7 +31,9 @@
             label="Ссылка, начинать с /"
           >
             <template v-slot:append>
-              <infoIcon :text="`без ${$origin}`" />
+              <client-only>
+                <infoIcon :text="`без ${$origin}`" />
+              </client-only>
             </template>
 
           </v-text-field>

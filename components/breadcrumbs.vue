@@ -1,29 +1,32 @@
 <template>
-  <ol
-    v-if="isShow"
-    vocab="http://schema.org/"
-    typeof="BreadcrumbList"
-  >
-    <li property="itemListElement" typeof="ListItem">
-      <NLink property="item" typeof="WebPage" :to="{ name: `index___${mixin_locale}` }">
-        <span property="name">{{ $t('mainPage') }}</span>
-      </NLink>
-      <meta property="position" content="1" />
-    </li>
-    <li
-      v-for="(crumb, index) in crumbs"
-      :key="index"
-      property="itemListElement"
-      typeof="ListItem"
+  <v-container fluid>
+    <ol
+      v-if="isShow"
+      vocab="http://schema.org/"
+      typeof="BreadcrumbList"
+      class="pl-0"
     >
-      <NLink property="item" typeof="WebPage" :to="crumb.path">
-        <span property="name">{{
-          crumb.title
-        }}</span>
-      </NLink>
-      <meta property="position" :content="index + 2" />
-    </li>
-  </ol>
+      <li property="itemListElement" typeof="ListItem">
+        <NLink property="item" typeof="WebPage" :to="{ name: `index___${mixin_locale}` }">
+          <span property="name">{{ $t('mainPage') }}</span>
+        </NLink>
+        <meta property="position" content="1" />
+      </li>
+      <li
+        v-for="(crumb, index) in crumbs"
+        :key="index"
+        property="itemListElement"
+        typeof="ListItem"
+      >
+        <NLink property="item" typeof="WebPage" :to="crumb.path">
+          <span property="name">{{
+            crumb.title
+          }}</span>
+        </NLink>
+        <meta property="position" :content="index + 2" />
+      </li>
+    </ol>
+  </v-container>
 </template>
 
 <script>

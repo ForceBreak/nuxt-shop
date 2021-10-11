@@ -22,6 +22,7 @@ export default {
   base_price: 'Base price',
   text_name: 'Name',
   product_code: 'Product code',
+  weigth: 'Цeigth',
   description: 'Description',
   short_description: 'Short description',
   save: 'Save',

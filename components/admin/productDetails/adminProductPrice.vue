@@ -4,14 +4,16 @@
     ref="adminProductInfo"
   >
     <v-text-field
-      v-model="localProduct.base_price"
+      v-model.number="localProduct.base_price"
       :value="localProduct.base_price"
       :label="$t('base_price')"
+      type="number"
     />
     <v-text-field
-      v-model="localProduct.price"
+      v-model.number="localProduct.price"
       :value="localProduct.price"
       :label="$t('price')"
+      type="number"
     />
 
     <v-checkbox 

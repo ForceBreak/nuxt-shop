@@ -13,6 +13,12 @@
       :value="localProduct.code"
       :label="$t('product_code')"
     />
+    <v-text-field
+      v-model.number="localProduct.weight"
+      :value="localProduct.weight"
+      :label="$t('weigth')"
+      type="number"
+    />
 
     <h4>{{ $t('short_description') }}</h4>
     <div class="editor-wrap-short mb-4">
@@ -75,8 +81,8 @@
         this.localProduct.description = this.descriptionEditor.getContent()
         this.localProduct.short_description = this.shortDescriptionEditor.getContent()
         
-        let { name, code, description, short_description, tags } = this.localProduct
-        this.$emit('saveInfo', { name, code, description, short_description, tags })
+        let { name, code, description, short_description, tags, weight } = this.localProduct
+        this.$emit('saveInfo', { name, code, description, short_description, tags, weight })
       },
       remove (item) {
         this.localProduct.tags.splice(this.localProduct.tags.indexOf(item), 1)

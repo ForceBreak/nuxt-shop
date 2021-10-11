@@ -22,6 +22,7 @@ export default {
   base_price: 'Базовая цена',
   text_name: 'Название',
   product_code: 'Артикул',
+  weigth: 'Вес',
   description: 'Описание',
   short_description: 'Краткое описание',
   save: 'Сохранить',

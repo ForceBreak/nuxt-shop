@@ -16,7 +16,7 @@
             active-class="purple white--text"
             depressed
             rounded
-            :to="{ name: `categories-id___${mixin_locale}`, params: {id: item.id} }"
+            :to="{ name: `categories-id___${mixin_locale}`, params: { id: item.link_text && item.link_text.length ? item.link_text : item.id } }"
           >
             {{ item.name }}
           </v-btn>
@@ -29,7 +29,7 @@
     <v-container fluid>
       <!-- <homeCategories /> -->
       <h2 class="my-6">Главная</h2>
-      <homeProducts />
+      <productList :products="homeProducts" @addToCart="addToCart"/>
 
     </v-container>
   </div>
@@ -41,13 +41,13 @@ import { mapGetters } from 'vuex'
 import * as firebase from 'firebase'
 import homeCategories from '~/components/front/carousels/homeCategories'
 import homeCarousel from '~/components/front/carousels/homeCarousel'
-import homeProducts from '~/components/front/homeProducts'
+import productList from '~/components/front/product-list'
 
 export default {
   name: 'indexPage',
   components: {
     // homeCategories,
-    homeProducts,
+    productList,
     homeCarousel
   },
   data(){
@@ -59,10 +59,14 @@ export default {
     ...mapGetters({
       homeCategoriesCarousel: 'front/carousels/homeCategories/homeCategoriesCarousel',
       role: 'auth/role',
-      homeSlides: 'admin/modules/home-slider/homeSlides'
+      homeSlides: 'admin/modules/home-slider/homeSlides',
+      homeProducts: 'front/homeProducts/homeProducts'
     })
   },
   methods: {
+    async addToCart(item){
+      await this.$fireStore.collection('carts').doc().set({ ...item, notified: false })
+    }
   },
   mounted(){
   },

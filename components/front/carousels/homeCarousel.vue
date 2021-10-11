@@ -37,7 +37,8 @@
           itemsToShow: 3,
           centerMode: true,
           infiniteScroll: true,
-          itemsToShow: 1.25
+          itemsToShow: 1.25,
+          wheelControl: false
         }
       }
     },
