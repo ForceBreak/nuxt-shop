@@ -11,6 +11,7 @@
               icon
               @click="productListView = 'list'"
               :color="productListView == 'list' ? 'indigo' : ''"
+              class="d-none d-sm-block"
             >
               <v-icon> mdi-view-list </v-icon>
             </v-btn>
@@ -23,7 +24,7 @@
               v-bind="attrs"
               v-on="on" 
               icon
-              class="mr-4"
+              class="d-none d-sm-block mr-4"
               @click="productListView = 'blocks'"
               :color="productListView == 'blocks' ? 'indigo' : ''"
             >

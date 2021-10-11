@@ -55,12 +55,10 @@
               size="125"
               tile
             >
-              <!-- <nuxt-link :to="{ name: `products-id___${mixin_locale}`, params: {id: product.id} }"> -->
-                <v-img
-                  height="200"
-                  :src="product.mainImage"
-                ></v-img>
-              <!-- </nuxt-link> -->
+              <v-img
+                height="200"
+                :src="product.mainImage"
+              ></v-img>
             </v-avatar>
             </nuxt-link>
             <div>

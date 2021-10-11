@@ -18,6 +18,44 @@
       <breadcrumbs />
       <nuxt/>
     </v-content>
+    <v-footer
+      :color="mixin.theme_text_color"
+      padless
+    >
+      <v-row
+        justify="center"
+        no-gutters
+      >
+        <v-btn
+          v-for="link in links"
+          :key="link"
+          color="white"
+          text
+          rounded
+          class="my-2"
+        >
+          {{ link }}
+        </v-btn>
+        <v-col
+          class="lighten-1 py-2 text-center white--text"
+          :class="[mixin.theme_text_color]"
+          cols="12"
+        >
+          Made with  
+          <v-btn
+            icon
+            color="green"
+            small
+          >
+            <v-icon>mdi-heart</v-icon>
+          </v-btn>
+          by 
+          <a href="https://www.upwork.com/search/profiles/?q=Pigusov&profile=~01a982bd5c224f351c" target="_blank" class="white--text">
+            <strong>Illia</strong>
+          </a>
+        </v-col>
+      </v-row>
+    </v-footer>
   </v-app>
 </template>
 
@@ -35,6 +73,14 @@ export default {
   data(){
     return {
       drawer: false,
+      links: [
+        'Home',
+        'About Us',
+        'Team',
+        'Services',
+        'Blog',
+        'Contact Us',
+      ],
     }
   },
   computed: {
