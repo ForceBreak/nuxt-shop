@@ -41,7 +41,7 @@
           <v-textarea
             v-model="carouselItem.description"
             :value="carouselItem.description"
-            label="Описание 1"
+            :label="$t('description')"
             auto-grow
             clearable
             rows="3"
@@ -102,15 +102,15 @@
         <v-row>
           <v-col xs="12" sm="6">
             <p>
-              <span class="title font-weight-black">Описание:</span>
+              <span class="title font-weight-black">{{ $t('description') }}:</span>
               <span class="title">{{ slide.description }}</span>
             </p>
             <p>
               <span class="title font-weight-black">Краткое описание:</span>
               <span class="title">{{ slide.description_short }}</span>
             </p>
-            <v-btn color="primary" @click="editSlide(slide)">Изменить</v-btn>
-            <v-btn color="error" @click="confirmRemove(slide)">Удалить</v-btn>
+            <v-btn color="primary" @click="editSlide(slide)">{{ $t('edit') }}</v-btn>
+            <v-btn color="error" @click="confirmRemove(slide)">{{ $t('delete') }}</v-btn>
           </v-col>
           <v-col xs="12" sm="6">
             <v-img

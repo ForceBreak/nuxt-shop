@@ -18,7 +18,7 @@
           <v-card-subtitle class="pb-0">
             {{ product.short_description }}
           </v-card-subtitle>
-          <v-card-title class="pt-2">{{ product.name }}</v-card-title>
+          <v-card-title class="pt-2">{{ product.name[mixin_locale] }}</v-card-title>
 
           <v-card-text>
             <div class="text--primary">{{ mixin_truncate(product.description, 70) }}</div>
@@ -34,7 +34,7 @@
               icon: product.mainImage,
               url: `${$origin}/products/${product.id}`
             })">
-              В корзину
+              {{ $t('add_to_cart') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -64,7 +64,7 @@
             <div>
               <v-card-title
                 class="text-h5"
-                v-text="product.name"
+                v-text="product.name[mixin_locale]"
               ></v-card-title>
 
               <v-card-subtitle> {{ product.weight }} гр. </v-card-subtitle>
@@ -79,12 +79,12 @@
           <v-card-actions class="d-flex align-center justify-space-between py-3">
             <p class="mb-0 headline font-weight-black"> {{ product.price }} грн</p>
             <v-btn color="error" @click="setToCart({
-              title: product.name,
+              title: product.name[mixin_locale],
               body: $moment().format('DD-MM-YYYY'),
               icon: product.mainImage,
               url: `${$origin}/products/${product.id}`
             })">
-              В корзину
+              {{ $t('add_to_cart') }}
             </v-btn>
           </v-card-actions>
         </v-card>

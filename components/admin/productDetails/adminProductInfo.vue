@@ -3,11 +3,13 @@
     v-model="form"
     ref="adminProductInfo"
   >
-    <v-text-field
-      v-model="localProduct.name"
-      :value="localProduct.name"
-      :label="$t('text_name')"
-    />
+    <template v-if="Object.keys(localProduct).length">
+      <v-text-field
+        v-model="localProduct.name[mixin_locale]"
+        :value="localProduct.name[mixin_locale]"
+        :label="$t('text_name')"
+      />
+    </template>
     <v-text-field
       v-model="localProduct.code"
       :value="localProduct.code"

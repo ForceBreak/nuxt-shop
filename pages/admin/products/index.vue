@@ -14,6 +14,7 @@
             chips
             :label="$t('import_products')"
             accept="application/vnd.ms-excel"
+            disabled
           />
         </v-form>
       </v-flex>
@@ -79,6 +80,32 @@
         class="elevation-1"
         show-select
       >
+        <template v-slot:header.name="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.description="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.category="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.price="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.base_price="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.image="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.code="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.actions="{ header }">
+          {{ $t(header.value) }}
+        </template>
+
+        
         <template v-slot:item.actions="{ item }">
           <v-btn
             icon
@@ -89,6 +116,10 @@
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
+        </template>
+
+        <template v-slot:item.name="{ item }">
+          {{ item.name[mixin_locale] }}
         </template>
 
         <template v-slot:item.description="{ item }">

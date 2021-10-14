@@ -28,7 +28,7 @@
 
     <v-container fluid>
       <!-- <homeCategories /> -->
-      <h2 class="my-6">Главная</h2>
+      <h2 class="my-6">{{ $t('mainPage') }}</h2>
       <productList :products="homeProducts" @addToCart="addToCart"/>
 
     </v-container>

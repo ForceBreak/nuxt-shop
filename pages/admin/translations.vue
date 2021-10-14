@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="justify-end align-center">
-      <successtextBtn :text="`Save`" @save="updateTranslations"/>
+      <successtextBtn :text="$t('save')" @save="updateTranslations"/>
       <v-col sm="3">
         <v-text-field
           @input="search"
@@ -72,7 +72,7 @@
                 ></v-text-field>
               </v-col>
               <v-col sm="12" class="py-0 d-flex justify-end">
-                <successtextBtn :text="`Save`" @save="saveNewitem"/>
+                <successtextBtn :text="$t('save')" @save="saveNewitem"/>
               </v-col>
             </v-row>
           </v-form>

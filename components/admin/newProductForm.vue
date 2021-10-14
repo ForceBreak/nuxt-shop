@@ -13,10 +13,20 @@
       >
       <template v-for="(item, index) in localKeys">
         <v-text-field
+          v-if="item.name == 'price'"
           :key="index"
-          v-model="newProduct[item.name]"
+          v-model.number="localProduct[item.name]"
+          type="number"
           :rules="mixin_nameRules"
-          :label="item.name.charAt(0).toUpperCase() + item.name.slice(1)"
+          :label="$t(item.name)"
+          required
+        />
+        <v-text-field
+          v-else
+          :key="index"
+          v-model="localProduct[item.name][mixin_locale]"
+          :rules="mixin_nameRules"
+          :label="$t(item.name)"
           required
         />
       </template>
@@ -62,7 +72,8 @@
       return {
         newOne: false,
         validNewProductForm: true,
-        localKeys: []
+        localKeys: [],
+        localProduct: {}
       }
     },
     methods: {
@@ -72,11 +83,19 @@
           
         this.localKeys = this.newProductKeysArray.filter(elem => elem.name != 'category' && elem.name != 'image' && elem.name != 'code' && elem.name != 'base_price')
         this.localKeys = this.localKeys.sort((a, b) => a.index - b.index)
+
+        this.localProduct = JSON.parse(JSON.stringify(this.newProduct))
+        this.localProduct.name = {}
+        this.localProduct.description = {}
+        this.mixin_locales.forEach(elem => {
+          this.localProduct.name[elem.id] = ''
+          this.localProduct.description[elem.id] = ''
+        });
       },
       async createProduct(){
         if(this.$refs.newProductForm.validate()){
           try {
-            await this.$fireStore.collection(this.collection).doc().set(this.newProduct)
+            await this.$fireStore.collection(this.collection).doc().set(this.localProduct)
             this.$emit('createProduct')
           } catch (error) {
             console.log(error)

@@ -1,7 +1,7 @@
 <template>
   <v-btn
     color="success"
-    title="Save item"
+    :title="$t('save')"
     @click="save"
   >
     {{ text }}
