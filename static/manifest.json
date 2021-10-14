@@ -1,8 +1,8 @@
 {
     "name": "Nuxt shop test",
     "short_name": "Nuxt shop",
-    "theme_color": "#2196f3",
-    "background_color": "#2196f3",
+    "theme_color": "#fff",
+    "background_color": "#fff",
     "display": "browser",
     "scope": "/",
     "start_url": "/",

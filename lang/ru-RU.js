@@ -1,44 +1,8 @@
-export default {
-  hello: 'Привет',
-  submit: 'Отправить',
-  signIn: 'Войти',
-  register: 'Зарегистироваться',
-  logout: 'Выйти',
-  no_products: 'Товары отсутствуют, хотите создать первый?',
-  no_categories: 'Категории отсутствуют, хотите создать тестовую?',
-  change_table_view: 'Перетаскивайте, чтобы изменить порядок.',
-  close: 'Закрыть',
-  create_new_product: 'Создать новый',
-  change_table_view_title: 'Изменить вид',
-  import_products: 'Импортировать товары',
-  create: 'Создать',
-  delete_all: 'Удалить все',
-  delete: 'Удалить',
-  search: 'Поиск',
-  edit: 'Изменить',
-  excel_only: 'Только Excel файл',
-  info: 'Информация',
-  price: 'Цена',
-  base_price: 'Базовая цена',
-  text_name: 'Название',
-  product_code: 'Артикул',
-  weigth: 'Вес',
-  description: 'Описание',
-  short_description: 'Краткое описание',
-  save: 'Сохранить',
-  meta_title: 'Мета заголовок',
-  meta_description: 'Мета описание',
-  meta_keywords: 'Мета ключевые слова',
-  link_text: 'Ссылка на товар',
-  tags: 'Теги',
-  show_sale_icon: 'Показывать иконку распродажа',
-  relations: 'Связи',
-  view: 'Просмотр',
-  parent_category: 'Родительская категория',
-  categories: 'Категории',
-  images: 'Изображения',
-  mainCatImage: 'Основное изображение категории',
+import * as firebase from 'firebase'
 
-  categories: 'Категории', //routes
-  mainPage: 'Главная',
+export default (context) => {
+  return new Promise(async (resolve)=> {
+    let translationsFromDB = await firebase.firestore().collection('translations').doc('ru').get()
+    resolve(translationsFromDB.data())
+  });
 }

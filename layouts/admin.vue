@@ -46,6 +46,7 @@ export default {
           { icon: 'mdi-view-list', text: 'Products', link: {name: `admin-products___${this.mixin_locale}`} },
           { icon: 'mdi-format-list-bulleted', text: 'Categories', link: {name: `admin-categories___${this.mixin_locale}`} },
           { icon: 'mdi-cog', text: 'Modules', link: {name: `admin-modules___${this.mixin_locale}`} },
+          { icon: 'mdi-web', text: 'Translations', link: {name: `admin-translations___${this.mixin_locale}`} },
       ]
     }
   },
@@ -56,7 +57,6 @@ export default {
       if(result.state != 'granted') {
         await Notification.requestPermission()
       }
-      console.log(result)
       this.$fireStore.collection("carts")
       .where("notified", "==", false)
       .onSnapshot((data) =>{
@@ -68,7 +68,7 @@ export default {
         }
       });
     });
-  }
+  },
 }
 </script>
 
