@@ -1,6 +1,37 @@
 <template>
   <v-container fluid>
+    <v-row>
+      <v-col class="py-0 d-flex justify-end">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-if="showAddForm"
+              v-bind="attrs"
+              v-on="on"
+              icon
+              color="warning"
+              @click="showAddForm = false"
+            >
+              <v-icon>mdi-minus-circle</v-icon>
+            </v-btn>
+            <v-btn
+              v-else
+              v-bind="attrs"
+              v-on="on"
+              icon
+              color="success"
+              @click="showAddForm = true"
+            >
+              <v-icon>mdi-plus-circle</v-icon>
+            </v-btn>
+          </template>
+          <span v-if="showAddForm"> Hide Add item </span>
+          <span v-else> Add item </span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
     <v-form
+      v-if="showAddForm"
       ref="carouselImageForm"
       v-model="validCarouselImageForm"
       lazy-validation
@@ -117,7 +148,8 @@
           description_short: '',
           link: ''
         },
-        showDeleteConfirm: false
+        showDeleteConfirm: false,
+        showAddForm: false
       }
     },
     computed: {
