@@ -3,7 +3,7 @@
     v-model="form"
     ref="adminProductInfo"
   >
-    <template v-if="Object.keys(localProduct).length">
+    <template>
       <v-text-field
         v-model="localProduct.name[mixin_locale]"
         :value="localProduct.name[mixin_locale]"
@@ -33,7 +33,7 @@
     </div>
 
     <v-combobox
-      v-model="localProduct.tags"
+      v-model="localProduct.tags[mixin_locale]"
       chips
       clearable
       :label="$t('tags')"
@@ -73,26 +73,41 @@
     data() {
       return {
         form: true,
-        localProduct: {},
+        localProduct: {
+          tags: {},
+          name: {}
+        },
         descriptionEditor: '',
         shortDescriptionEditor: ''
       }
     },
     methods: {
       saveInfo(){
-        this.localProduct.description = this.descriptionEditor.getContent()
-        this.localProduct.short_description = this.shortDescriptionEditor.getContent()
+        this.localProduct.description[this.mixin_locale] = this.descriptionEditor.getContent()
+        this.localProduct.short_description[this.mixin_locale] = this.shortDescriptionEditor.getContent()
         
         let { name, code, description, short_description, tags, weight } = this.localProduct
         this.$emit('saveInfo', { name, code, description, short_description, tags, weight })
       },
       remove (item) {
-        this.localProduct.tags.splice(this.localProduct.tags.indexOf(item), 1)
-        this.localProduct.tags = [...this.localProduct.tags]
+        this.localProduct.tags[this.mixin_locale].splice(this.localProduct.tags[this.mixin_locale].indexOf(item), 1)
+        this.localProduct.tags[this.mixin_locale] = [...this.localProduct.tags[this.mixin_locale]]
       },
+      setContent(val){
+        this.descriptionEditor.setContent(this.product.description[val])
+
+        if(this.product.short_description){
+          this.shortDescriptionEditor.setContent(this.product.short_description[val])
+        }
+      }
+    },
+    watch: {
+      mixin_locale(val){
+        this.setContent(val)
+      }
     },
     mounted(){
-      this.localProduct = JSON.parse(JSON.stringify(this.product))
+      Object.assign(this.localProduct, JSON.parse(JSON.stringify(this.product)))
       let editorConfig = {
         toolbar: [
           'removeFormat', 'undo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
@@ -105,11 +120,8 @@
 
       this.descriptionEditor = this.$vueeditor('#description', editorConfig)
       this.shortDescriptionEditor = this.$vueeditor('#short_description', editorConfig)
-      this.descriptionEditor.setContent(this.product.description)
 
-      if(this.product.short_description){
-        this.shortDescriptionEditor.setContent(this.product.short_description)
-      }
+      this.setContent(this.mixin_locale)
     },
   }
 </script>

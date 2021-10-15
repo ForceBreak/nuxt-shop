@@ -87,9 +87,11 @@
         this.localProduct = JSON.parse(JSON.stringify(this.newProduct))
         this.localProduct.name = {}
         this.localProduct.description = {}
+        this.localProduct.short_description = {}
         this.mixin_locales.forEach(elem => {
           this.localProduct.name[elem.id] = ''
           this.localProduct.description[elem.id] = ''
+          this.localProduct.short_description[elem.id] = ''
         });
       },
       async createProduct(){

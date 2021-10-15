@@ -123,7 +123,7 @@
         </template>
 
         <template v-slot:item.description="{ item }">
-          {{ mixin_truncate(item.description, 20) }}
+          {{ mixin_truncate(item.description[mixin_locale], 20) }}
         </template>
       </v-data-table>
     </v-card>
