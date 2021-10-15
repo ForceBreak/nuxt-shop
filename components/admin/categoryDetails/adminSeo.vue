@@ -4,17 +4,17 @@
     ref="adminProductSeo"
   >
     <v-text-field
-      v-model="localProduct.meta_title"
-      :value="localProduct.meta_title"
+      v-model="localProduct.meta_title[mixin_locale]"
+      :value="localProduct.meta_title[mixin_locale]"
       :label="$t('meta_title')"
     />
     <v-text-field
-      v-model="localProduct.meta_description"
-      :value="localProduct.meta_description"
+      v-model="localProduct.meta_description[mixin_locale]"
+      :value="localProduct.meta_description[mixin_locale]"
       :label="$t('meta_description')"
     />
     <v-combobox
-      v-model="localProduct.meta_keywords"
+      v-model="localProduct.meta_keywords[mixin_locale]"
       chips
       clearable
       :label="$t('meta_keywords')"
@@ -60,13 +60,17 @@
     data() {
       return {
         form: true,
-        localProduct: {}
+        localProduct: {
+          meta_title: {},
+          meta_description: {},
+          meta_keywords: {}
+        }
       }
     },
     methods: {
       remove (item) {
-        this.localProduct.meta_keywords.splice(this.localProduct.meta_keywords.indexOf(item), 1)
-        this.localProduct.meta_keywords = [...this.localProduct.meta_keywords]
+        this.localProduct.meta_keywords[this.mixin_locale].splice(this.localProduct.meta_keywords[this.mixin_locale].indexOf(item), 1)
+        this.localProduct.meta_keywords[this.mixin_locale] = [...this.localProduct.meta_keywords[this.mixin_locale]]
       },
       saveInfo(){
         if(this.$refs.adminProductSeo.validate()){
@@ -76,7 +80,7 @@
       }
     },
     mounted(){
-      this.localProduct = JSON.parse(JSON.stringify(this.product))
+      Object.assign(this.localProduct, JSON.parse(JSON.stringify(this.product)))
     },
   }
 </script>

@@ -33,7 +33,6 @@
         tile
       >
         <div class="mx-2 py-2">
-          <v-btn @click="firebaseFunc">Send</v-btn>
           <component 
             :is="activeTab" 
             :product="category" 
@@ -82,11 +81,6 @@
           data: arg,
           collection: 'categories'
         })
-      },
-      async firebaseFunc(){
-        console.log(await this.$fireFunc.call('getProductsByCategory', {
-          id: this.$route.params.id
-        }, {}), '$fireFunc')
       },
     },
     computed: {

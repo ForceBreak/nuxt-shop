@@ -79,6 +79,22 @@
         class="elevation-1"
         show-select
       >
+        <template v-slot:header.name="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.description="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.short_description="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.image="{ header }">
+          {{ $t(header.value) }}
+        </template>
+        <template v-slot:header.actions="{ header }">
+          {{ $t(header.value) }}
+        </template>
+
         <template v-slot:item.actions="{ item }">
           <v-btn
             icon
@@ -89,6 +105,16 @@
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
+        </template>
+        <template v-slot:item.name="{ item }">
+          {{ item.name[mixin_locale] }}
+        </template>
+
+        <template v-slot:item.description="{ item }">
+          {{ mixin_truncate(item.description[mixin_locale], 20) }}
+        </template>
+        <template v-slot:item.short_description="{ item }">
+          {{ mixin_truncate(item.short_description[mixin_locale], 20) }}
         </template>
       </v-data-table>
     </v-card>
@@ -279,7 +305,7 @@
         this.headers = new Array(Object.keys(this.productView).length)
         Object.keys(this.productView).forEach(elem => {
           if(elem != 'id' && elem != 'actions'){
-            this.newProductKeysArray.push(elem)
+            this.newProductKeysArray.push({ name: elem, index:  this.productView[elem] })
             this.newProduct[elem] = ''
             this.importProductView[elem] = ''
           }

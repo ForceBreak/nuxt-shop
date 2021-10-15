@@ -1,7 +1,5 @@
 <template>
-  <v-form
-    ref="adminCategoryImages"
-  >
+  <div>
     <v-row>
       <v-col xs="12" sm="6">
         <v-form
@@ -30,7 +28,7 @@
     >
       {{ $t('save') }}
     </v-btn>
-  </v-form>
+  </div>
 </template>
 
 <script>

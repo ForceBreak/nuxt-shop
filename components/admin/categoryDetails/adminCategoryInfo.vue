@@ -4,8 +4,8 @@
     ref="adminProductInfo"
   >
     <v-text-field
-      v-model="localProduct.name"
-      :value="localProduct.name"
+      v-model="localProduct.name[mixin_locale]"
+      :value="localProduct.name[mixin_locale]"
       :label="$t('text_name')"
     />
 
@@ -40,22 +40,36 @@
     data() {
       return {
         form: true,
-        localProduct: {},
+        localProduct: {
+          name: {}
+        },
         descriptionEditor: '',
         shortDescriptionEditor: '',
       }
     },
     methods: {
       saveInfo(){
-        this.localProduct.description = this.descriptionEditor.getContent()
-        this.localProduct.short_description = this.shortDescriptionEditor.getContent()
+        this.localProduct.description[this.mixin_locale] = this.descriptionEditor.getContent()
+        this.localProduct.short_description[this.mixin_locale] = this.shortDescriptionEditor.getContent()
 
         let { name, description, short_description } = this.localProduct
         this.$emit('saveInfo', { name, description, short_description })
       },
+      setContent(val){
+        this.descriptionEditor.setContent(this.product.description[val])
+
+        if(this.product.short_description){
+          this.shortDescriptionEditor.setContent(this.product.short_description[val])
+        }
+      }
+    },
+    watch: {
+      mixin_locale(val){
+        this.setContent(val)
+      }
     },
     mounted(){
-      this.localProduct = JSON.parse(JSON.stringify(this.product))
+      Object.assign(this.localProduct, JSON.parse(JSON.stringify(this.product)))
       let editorConfig = {
         toolbar: [
           'removeFormat', 'undo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
@@ -68,11 +82,8 @@
 
       this.descriptionEditor = this.$vueeditor('#description', editorConfig)
       this.shortDescriptionEditor = this.$vueeditor('#short_description', editorConfig)
-      this.descriptionEditor.setContent(this.product.description)
 
-      if(this.product.short_description){
-        this.shortDescriptionEditor.setContent(this.product.short_description)
-      }
+      this.setContent(this.mixin_locale)
     },
   }
 </script>
