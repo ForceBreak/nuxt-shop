@@ -16,12 +16,12 @@
           </nuxt-link>
           
           <v-card-subtitle class="pb-0">
-            {{ product.short_description }}
+            {{ product.short_description[mixin_locale] }}
           </v-card-subtitle>
           <v-card-title class="pt-2">{{ product.name[mixin_locale] }}</v-card-title>
 
           <v-card-text>
-            <div class="text--primary">{{ mixin_truncate(product.description, 70) }}</div>
+            <div class="text--primary">{{ mixin_truncate(product.description[mixin_locale], 70) }}</div>
           </v-card-text>
 
           <v-divider class="mx-4"></v-divider>
@@ -29,7 +29,7 @@
           <v-card-actions class="d-flex align-center justify-space-between py-3">
             <p class="mb-0 headline font-weight-black"> {{ product.price }} грн</p>
             <v-btn color="error" @click="setToCart({
-              title: product.name,
+              title: product.name[mixin_locale],
               body: $moment().format('DD-MM-YYYY'),
               icon: product.mainImage,
               url: `${$origin}/products/${product.id}`
@@ -70,7 +70,7 @@
               <v-card-subtitle> {{ product.weight }} гр. </v-card-subtitle>
 
               <v-card-text>
-                <div class="text--primary">{{ mixin_truncate(product.description, 100) }}</div>
+                <div class="text--primary">{{ mixin_truncate(product.description[mixin_locale], 100) }}</div>
               </v-card-text>
 
             </div>

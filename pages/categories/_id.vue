@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pt-0">
     <div class="d-flex flex-wrap align-center justify-space-between">
-      <h2 class="flex-grow-1">{{ category.name }}</h2>
+      <h2 class="flex-grow-1">{{ category.name[mixin_locale] }}</h2>
       <div class="d-flex align-center">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">

@@ -18,7 +18,7 @@
             rounded
             :to="{ name: `categories-id___${mixin_locale}`, params: { id: item.link_text && item.link_text.length ? item.link_text : item.id } }"
           >
-            {{ item.name }}
+            {{ item.name[mixin_locale] }}
           </v-btn>
         </v-slide-item>
       </v-slide-group>
